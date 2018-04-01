@@ -62,9 +62,14 @@ class MenuAppBar extends React.Component {
                             </Link>
                         </Typography>
                         {!auth && (
-                            <Link style={styles.link} to='/login'>
-                                <Button color='inherit'>Login</Button>
-                            </Link>
+                            <div>
+                                <Link style={styles.link} to='/login'>
+                                    <Button color='inherit'>Login</Button>
+                                </Link>
+                                <Link style={styles.link} to='/register'>
+                                    <Button color='inherit'>Register</Button>
+                                </Link>
+                            </div>
                         )}
                         {auth && (
                             <div>

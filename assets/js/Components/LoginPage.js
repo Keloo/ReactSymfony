@@ -1,14 +1,18 @@
 import React from 'react'
 import FacebookLoginButton from './FacebookLoginButton'
 import GoogleLoginButton from './GoogleLoginButton'
+import Grid from 'material-ui/Grid';
 
 class LoginPage extends React.Component {
     render() {
         return (
-            <div>
-                <FacebookLoginButton/>
-                <GoogleLoginButton/>
-            </div>
+            <Grid container justify="center">
+                <Grid item>
+                    <FacebookLoginButton/>
+                    <GoogleLoginButton/>
+
+                </Grid>
+            </Grid>
         );
     }
 }
