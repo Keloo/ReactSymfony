@@ -10,7 +10,7 @@ import AppBar from './Components/AppBar'
 
 const theme = createMuiTheme({
     palette: {
-        type: 'dark',
+        type: 'light',
     },
 });
 
