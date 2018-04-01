@@ -1,64 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import SocialButton from './Components/SocialButton'
+import AppBar from 'material-ui/AppBar';
+import FontIcon from 'material-ui/FontIcon';
+import AppBarLogin from './Components/AppBarLogin'
+import AppBarLogged from './Components/AppBarLogged'
+import HomePage from './Components/HomePage'
+import LoginPage from './Components/LoginPage'
 
-import ItemCard from './Components/ItemCard';
-
-const handleSocialLogin = (user) => {
-    console.log(user)
-}
-
-const handleSocialLoginFailure = (err) => {
-    console.error(err)
-}
+const style = {
+    title: {
+        curosr: 'pointer',
+        color: 'inherit',
+        textDecoration: 'none'
+    }
+};
 
 class App extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            entries: []
+            logged: false,
         };
     }
 
-    componentDidMount() {
-        fetch('/data')
-            .then(response => response.json())
-            .then(entries => {
-                this.setState({
-                    entries
-                });
-            });
-    }
+    componentDidMount() {}
 
     render() {
         return (
             <MuiThemeProvider>
-                <div style={{ display: 'flex' }}>
-                    {/*{this.state.entries.map(*/}
-                        {/*({ id, author, avatarUrl, title, description }) => (*/}
-                            {/*<ItemCard*/}
-                                {/*key={id}*/}
-                                {/*author={author}*/}
-                                {/*title={title}*/}
-                                {/*avatarUrl={avatarUrl}*/}
-                                {/*style={{ flex: 1, margin: 10 }}*/}
-                            {/*>*/}
-                                {/*{description}*/}
-                            {/*</ItemCard>*/}
-                        {/*)*/}
-                    {/*)}*/}
-
+                <div>
                     <div>
-                        <SocialButton
-                            provider='facebook'
-                            appId='330456840431220'
-                            onLoginSuccess={handleSocialLogin}
-                            onLoginFailure={handleSocialLoginFailure}
-                        >
-                            Login with Facebook
-                        </SocialButton>
+                        <AppBar
+                            title={<Link style={style.title} to="/">Toptal app</Link>}
+                            iconElementLeft={<FontIcon />}
+                            iconElementRight={this.state.logged ? <AppBarLogged /> : <AppBarLogin />}
+                        />
+                        <Route exact path='/' component={HomePage}/>
+                        <Route path='/login' component={LoginPage}/>
                     </div>
                 </div>
             </MuiThemeProvider>
@@ -67,4 +48,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));

@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "material-ui": "^0.20.0",
+    "material-ui-community-icons": "^0.15.0",
+    "react-router-dom": "^4.2.2",
     "react-social-login": "^3.4.2"
   }
 }
