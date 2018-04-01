@@ -1,5 +1,5 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton'
+import Buton from 'material-ui/Button'
 import {Link} from 'react-router-dom'
 
 class AppBarLogin extends React.Component {
@@ -8,7 +8,7 @@ class AppBarLogin extends React.Component {
     render() {
         return (
             <Link to='/login'>
-                <FlatButton {...this.props} label="Login" />
+                <Button {...this.props} label="Login" />
             </Link>
         );
     }

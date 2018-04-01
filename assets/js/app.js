@@ -1,47 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import FontIcon from 'material-ui/FontIcon';
-import AppBarLogin from './Components/AppBarLogin'
-import AppBarLogged from './Components/AppBarLogged'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import Grid from 'material-ui/Grid';
 import HomePage from './Components/HomePage'
 import LoginPage from './Components/LoginPage'
+import AppBar from './Components/AppBar'
 
-const style = {
-    title: {
-        curosr: 'pointer',
-        color: 'inherit',
-        textDecoration: 'none'
-    }
-};
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark',
+    },
+});
 
 class App extends React.Component {
     constructor() {
         super();
-
-        this.state = {
-            logged: false,
-        };
     }
-
-    componentDidMount() {}
 
     render() {
         return (
-            <MuiThemeProvider>
-                <div>
-                    <div>
-                        <AppBar
-                            title={<Link style={style.title} to="/">Toptal app</Link>}
-                            iconElementLeft={<FontIcon />}
-                            iconElementRight={this.state.logged ? <AppBarLogged /> : <AppBarLogin />}
-                        />
+            <MuiThemeProvider theme={theme}>
+                <Grid container spacing={16}>
+                    <Grid item xs={12}>
+                        <AppBar/>
+                    </Grid>
+                    <Grid item xs={12}>
                         <Route exact path='/' component={HomePage}/>
                         <Route path='/login' component={LoginPage}/>
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             </MuiThemeProvider>
 
         );

@@ -1,15 +1,15 @@
 import React from 'react'
 import SocialLogin from 'react-social-login'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/Button'
 
 const style = {
     margin: 12,
 };
 
-const Button = ({ children, triggerLogin, ...props }) => (
-    <RaisedButton style={style} primary={true} onClick={triggerLogin} {...props}>
+const SocialButton = ({ children, triggerLogin, ...props }) => (
+    <Button style={style} color="primary" variant="raised" onClick={triggerLogin} {...props}>
         { children }
-    </RaisedButton>
+    </Button>
 );
 
-export default SocialLogin(Button)
+export default SocialLogin(SocialButton)
