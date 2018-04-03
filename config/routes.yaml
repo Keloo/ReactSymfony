@@ -8,5 +8,5 @@ api:
     controller: App\Controller\DefaultController::api
 
 login_check:
-    path:     /login_check
+    path:     /api/login_check
     methods:  [POST]

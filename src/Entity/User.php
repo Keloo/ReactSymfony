@@ -338,4 +338,9 @@ class User implements AdvancedUserInterface, \Serializable
             $this->password,
         ) = $data;
     }
+
+    public function getSalt()
+    {
+        return "";
+    }
 }
