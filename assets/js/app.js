@@ -7,6 +7,11 @@ import HomePage from './Components/HomePage'
 import LoginPage from './Components/LoginPage'
 import RegisterPage from './Components/RegisterPage'
 import AppBar from './Components/AppBar'
+import {createStore} from 'redux'
+import { Provider } from 'react-redux'
+import rootReducer from './Reducers'
+
+const store = createStore(rootReducer);
 
 const theme = createMuiTheme({
     palette: {
@@ -38,4 +43,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
+ReactDOM.render(<Router><Provider store={store}><App /></Provider></Router>, document.getElementById('root'));

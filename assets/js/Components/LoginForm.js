@@ -46,7 +46,7 @@ class LoginForm extends React.Component {
                 .then((response) => response.json())
                 .catch((error) => console.error(error))
                 .then(function(response) {
-                    if (response.status != 200) {
+                    if (response.code !== undefined && response.code !== 200) {
                         that.setState({
                             error: {
                                 has: true,
@@ -55,10 +55,9 @@ class LoginForm extends React.Component {
                         });
                         return 0;
                     }
-
-                    console.log('good');
                     that.setState({
                         auth: true,
+                        authToken: response.token,
                     })
                 });
         } catch(e) {
@@ -87,7 +86,7 @@ class LoginForm extends React.Component {
                                 id="username"
                                 label='Username'
                                 margin="normal"
-                                onChange={this.handleChange('name')}
+                                onChange={this.handleChange('username')}
                             />
                         </Grid>
                         <Grid item>
