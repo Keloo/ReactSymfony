@@ -3,8 +3,6 @@ import RegisterForm from '../Components/RegisterForm'
 import { onRegisterInputChange } from "../Actions/index";
 
 const mapStateToProps = state => {
-    console.log('in rahat');
-    console.log(state);
     return {
 
     }

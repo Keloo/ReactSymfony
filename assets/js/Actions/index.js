@@ -35,3 +35,12 @@ export const onRegisterSuccess = (response) => ({
 export const onRegisterFailure = (response) => ({
     type: "REGISTER:REGISTER_FAILURE",
 });
+
+//Home actions
+export const onFetchApartments = (response) => ({
+    type: "HOME:FETCH_APARTMENTS",
+    apartments: response,
+});
+export const homeFetchApartments = (dispatch) => {
+    api.getApartments(response => {dispatch(onFetchApartments(response))})
+};

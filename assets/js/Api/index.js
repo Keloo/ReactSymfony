@@ -21,5 +21,17 @@ export default {
                 }
                 successCallback(response)
             });
+    },
+    getApartments: function(callback) {
+        fetch('api/apartment/list', {
+            method: 'GET',
+            headers: headers,
+        })
+            .then((response) => response.json())
+            .then(function(response) {
+                console.log('2');
+                console.log(response);
+                callback(response);
+            });
     }
 }

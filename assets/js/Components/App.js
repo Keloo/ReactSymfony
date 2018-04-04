@@ -7,7 +7,7 @@ import Grid from 'material-ui/Grid';
 import Login from '../Containers/Login'
 import AppBar from '../Containers/AppBar'
 import RegisterPage from '../Containers/Register'
-import Home from './Home'
+import Home from '../Containers/Home'
 
 const theme = createMuiTheme({
     palette: {

@@ -49,8 +49,6 @@ class MenuAppBar extends React.Component {
         const { classes } = this.props;
         const { auth, anchorEl } = this.state;
         const open = Boolean(anchorEl);
-        console.log('terminat');
-        console.log(this.props);
         return (
             <div className={classes.root}>
                 <AppBar position="static">

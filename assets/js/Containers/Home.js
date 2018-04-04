@@ -3,12 +3,20 @@ import HomeComponent from '../Components/Home'
 
 const mapStateToProps = state => {
     return {
-        // auth: state.login.auth,
+        apartments: state.home.apartments,
+    }
+};
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        //add actions
     }
 };
 
 const Home = connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(HomeComponent);
 
 export default Home;

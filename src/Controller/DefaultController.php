@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Apartment;
 use App\Entity\User;
+use App\Repository\ApartmentRepository;
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -98,5 +100,40 @@ class DefaultController extends Controller
             'token' => $jwtManager->create($user),
             'roles' => $user->getRoles(),
         ]);
+    }
+
+    /**
+     * @Route("/api/apartment/list", name="api_apartment_list")
+     * @Method({"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function apartments(Request $request)
+    {
+        /** @var ApartmentRepository $apartmentRepository */
+        $apartmentRepository = $this->getDoctrine()->getRepository(Apartment::class);
+
+        $apartments = $apartmentRepository->findAll();
+
+        return new JsonResponse($this->prepareApartmentsResponse($apartments));
+    }
+
+    protected function prepareApartmentsResponse($apartments)
+    {
+        $response = [];
+        /** @var Apartment $apartment */
+        foreach ($apartments as $apartment) {
+            $obj = (object)[
+                'id' => $apartment->getId(),
+                'area' => $apartment->getArea(),
+                'pricePerMonth' => $apartment->getPricePerMonth(),
+                'gpsLatitude' => $apartment->getGpsLatitude(),
+                'gpsLongitude' => $apartment->getGpsLongitude(),
+                'roomCount' => $apartment->getRoomCount(),
+            ];
+            array_push($response,$obj);
+        }
+
+        return $response;
     }
 }
