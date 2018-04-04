@@ -55,6 +55,27 @@ class Apartment
     private $user;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $available;
+
+    /**
+     * @return mixed
+     */
+    public function getAvailable()
+    {
+        return $this->available;
+    }
+
+    /**
+     * @param mixed $available
+     */
+    public function setAvailable($available)
+    {
+        $this->available = $available;
+    }
+
+    /**
      * @return UserInterface
      */
     public function getUser(): UserInterface
