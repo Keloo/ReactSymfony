@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Grid from 'material-ui/Grid';
+import ApartmentsTable from '../Containers/ApartmentsTable';
+
 import { homeFetchApartments } from "../Actions/index";
 
 class Home extends React.Component {
@@ -11,14 +13,15 @@ class Home extends React.Component {
         homeFetchApartments(this.props.dispatch);
     }
 
-    renderApartments() {
-        if (!this.props.apartments) return "";
-        return (
-            this.props.apartments.map((item) => (
-                <div key={item.id}>{item.id}</div>
-            ))
-        );
-    }
+    // renderApartments() {
+    //     if (!this.props.apartments) return "";
+    //     return (
+    //         this.props.apartments.map((item) => (
+    //
+    //             <div key={item.id}>{item.id}</div>
+    //         ))
+    //     );
+    // }
 
     render() {
 
@@ -26,7 +29,8 @@ class Home extends React.Component {
             <Grid container justify="center">
                 <Grid item>
                     <h1>Welcome</h1>
-                    {this.renderApartments()}
+                    {/*{this.renderApartments()}*/}
+                    <ApartmentsTable />
                 </Grid>
             </Grid>
         );

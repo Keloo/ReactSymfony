@@ -30,7 +30,7 @@ class ApartmentFixtures extends Fixture implements DependentFixtureInterface
             ->setPricePerMonth(100)
             ->setGpsLatitude("40.717603")
             ->setGpsLongitude("-74.011522")
-            ->setRoomCount(1)
+            ->setRoomCount(2)
             ->setUser($this->getReference(UserFixtures::REALTOR_USER_REFERENCE));
         $manager->persist($apartment);
         $manager->flush();
@@ -43,7 +43,7 @@ class ApartmentFixtures extends Fixture implements DependentFixtureInterface
             ->setPricePerMonth(1000)
             ->setGpsLatitude("40.727882")
             ->setGpsLongitude("-73.982512")
-            ->setRoomCount(1)
+            ->setRoomCount(4)
             ->setUser($this->getReference(UserFixtures::REALTOR_USER_REFERENCE));
         $manager->persist($apartment);
         $manager->flush();
