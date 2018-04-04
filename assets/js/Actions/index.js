@@ -9,6 +9,7 @@ export const onLoginInputChange = (name, value) => ({
 export const onLoginSuccess = (response) => ({
     type: "LOGIN:LOGIN_SUCCESS",
     token: response.token,
+    roles: response.roles,
 });
 export const onLoginFailure = (response) => ({
     type: "LOGIN:LOGIN_FAILURE",

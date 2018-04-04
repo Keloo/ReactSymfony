@@ -26,7 +26,7 @@ class App extends React.Component {
                         </Grid>
                         <Grid item xs={12}>
                             <Route exact path='/' component={Home}/>
-                            <Route path='/login' component={!this.props.auth?Login:Dashboard}/>
+                            <Route path='/login' component={!this.props.auth?Login:Home}/>
                             <Route path='/register' component={RegisterPage}/>
                         </Grid>
                     </Grid>

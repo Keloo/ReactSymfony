@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,6 +15,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends Controller
 {
+    /** @var UserPasswordEncoderInterface */
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @Route("/", name="index")
      */
@@ -50,6 +59,7 @@ class DefaultController extends Controller
     /**
      * @Route("/api/login/google", name="api_login_google")
      * @Method({"POST"})
+     * @param Request $request
      */
     public function googleSignIn(Request $request)
     {
@@ -57,7 +67,36 @@ class DefaultController extends Controller
         $googleClient = $this->get('Google_Client');
         /** @var JWTManager $jwtManager */
         $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
+    }
 
+    /**
+     * @Route("/api/login", name="api_login")
+     * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(Request $request)
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->getDoctrine()->getRepository(User::class);
+        /** @var JWTManager $jwtManager */
+        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
 
+        $data = json_decode($request->getContent());
+        if (!$data->username) $data->username = "";
+        if (!$data->password) $data->password = "";
+
+        $user = $userRepository->loadUserByUsername($data->username);
+        if (!$user || !$this->passwordEncoder->isPasswordValid($user, $data->password)) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => 'Bad credentials'
+            ]);
+        }
+
+        return new JsonResponse((object)[
+            'token' => $jwtManager->create($user),
+            'roles' => $user->getRoles(),
+        ]);
     }
 }

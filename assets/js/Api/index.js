@@ -5,7 +5,7 @@ const headers = {
 
 export default {
     handleLogin: function(data, successCallback, failureCallback) {
-        fetch('api/login_check', {
+        fetch('api/login', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
