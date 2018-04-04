@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Grid from 'material-ui/Grid';
 import ApartmentsTable from '../Containers/ApartmentsTable';
 import ApartmentsMap from '../Components/ApartmentsMap';
-
 import { homeFetchApartments } from "../Actions/index";
 
 class Home extends React.Component {
@@ -17,10 +16,12 @@ class Home extends React.Component {
     render() {
 
         return (
-            <Grid container justify="center">
-                <Grid item>
-                    <h1>Welcome</h1>
+            <Grid container justify="center" spacing={16}>
+                <Grid item xs={12} padding={16}>
                     <ApartmentsTable />
+                </Grid>
+                <br/>
+                <Grid item xs={12} padding={16}>
                     <ApartmentsMap />
                 </Grid>
             </Grid>
