@@ -22,12 +22,6 @@ import DeleteIcon from 'mdi-material-ui/Delete';
 import FilterListIcon from 'mdi-material-ui/Filter';
 import { lighten } from 'material-ui/styles/colorManipulator';
 
-// let counter = 0;
-// function createData(name, calories, fat, carbs, protein) {
-//     counter += 1;
-//     return { id: counter, name, calories, fat, carbs, protein };
-// }
-
 const columnData = [
     { id: 'pricePerMonth', numeric: true, disablePadding: false, label: 'Price per month' },
     { id: 'area', numeric: true, disablePadding: false, label: 'Area' },
@@ -131,7 +125,7 @@ let EnhancedTableToolbar = props => {
                         {numSelected} selected
                     </Typography>
                 ) : (
-                    <Typography variant="title">Nutrition</Typography>
+                    <Typography variant="title">Apartments</Typography>
                 )}
             </div>
             <div className={classes.spacer} />
