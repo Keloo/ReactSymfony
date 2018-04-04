@@ -6,8 +6,6 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import AccountCircle from 'mdi-material-ui/AccountCircle';
-import Switch from 'material-ui/Switch';
-import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import {Link} from 'react-router-dom'
 import Button from 'material-ui/Button'
@@ -51,7 +49,8 @@ class MenuAppBar extends React.Component {
         const { classes } = this.props;
         const { auth, anchorEl } = this.state;
         const open = Boolean(anchorEl);
-
+        console.log('terminat');
+        console.log(this.props);
         return (
             <div className={classes.root}>
                 <AppBar position="static">
@@ -61,7 +60,7 @@ class MenuAppBar extends React.Component {
                                 Toptal app
                             </Link>
                         </Typography>
-                        {!auth && (
+                        {!this.props.auth && (
                             <div>
                                 <Link style={styles.link} to='/login'>
                                     <Button color='inherit'>Login</Button>
@@ -71,7 +70,7 @@ class MenuAppBar extends React.Component {
                                 </Link>
                             </div>
                         )}
-                        {auth && (
+                        {this.props.auth && (
                             <div>
                                 <IconButton
                                     aria-owns={open ? 'menu-appbar' : null}

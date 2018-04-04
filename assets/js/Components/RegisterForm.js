@@ -2,6 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button'
+import Typography from 'material-ui/Typography'
 
 const styles = {
     submit: {
@@ -10,26 +11,20 @@ const styles = {
 };
 
 class RegisterForm extends React.Component {
-    state = {
-        username: "",
-        email: "",
-        password: ""
-    };
-
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        });
-    };
 
     handleSubmit() {
-
+        console.log('handl submit');
+        console.log(this.props);
     }
 
     render() {
         return (
-            <Grid container justify="center">
                 <Grid container justify="center">
+                    <Grid container justify="center">
+                        <Grid item>
+                            <Typography variant='title'>Register</Typography>
+                        </Grid>
+                    </Grid>
                     <form noValidate action="#" autoComplete="off">
                         <Grid item>
                             <TextField
@@ -37,7 +32,7 @@ class RegisterForm extends React.Component {
                                 id="username"
                                 label='Username'
                                 margin="normal"
-                                onChange={this.handleChange('name')}
+                                onChange={(e) => {this.props.onInputChange('username', e.target.value)}}
                             />
                         </Grid>
                         <Grid item>
@@ -47,7 +42,7 @@ class RegisterForm extends React.Component {
                                 label='Email'
                                 margin="normal"
                                 type="email"
-                                onChange={this.handleChange('email')}
+                                onChange={(e) => {this.props.onInputChange('email', e.target.value)}}
                             />
                         </Grid>
                         <Grid item>
@@ -57,18 +52,17 @@ class RegisterForm extends React.Component {
                                 label='Password'
                                 margin="normal"
                                 type="password"
-                                onChange={this.handleChange('password')}
+                                onChange={(e) => {this.props.onInputChange('password', e.target.value)}}
                             />
                         </Grid>
                         <Grid item>
                             <br/>
-                            <Button type='submit' style={styles.submit} onClick={this.handleSubmit()} color='primary' variant='raised'>
+                            <Button type='submit' style={styles.submit} onClick={() => this.handleSubmit()} color='primary' variant='raised'>
                                 Register
                             </Button>
                         </Grid>
                     </form>
                 </Grid>
-            </Grid>
         );
     }
 }

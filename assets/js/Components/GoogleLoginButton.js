@@ -1,6 +1,8 @@
 import React from 'react'
-import SocialButton from './SocialButton'
 import GoogleIcon from 'mdi-material-ui/GooglePlusBox'
+
+import SocialButton from './SocialButton'
+
 
 const handleSocialLogin = (user) => {
     console.log(user)

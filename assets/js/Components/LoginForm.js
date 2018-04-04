@@ -1,8 +1,13 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
+
+import FacebookLoginButton from './FacebookLoginButton'
+import GoogleLoginButton from './GoogleLoginButton'
+import { onLoginSubmit } from "../Actions/index";
 
 const styles = {
     submit: {
@@ -14,67 +19,34 @@ const styles = {
 };
 
 class LoginForm extends React.Component {
-    state = {
-        error: {
-            has: false,
-            message: ""
-        },
-        username: "",
-        password: ""
-    };
+    constructor(props) {
+        super(props);
+    }
 
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        });
-    };
-
-    handleSubmit() {
-        let that = this;
-        try {
-            fetch('api/login_check', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: this.state.username,
-                    password: this.state.password,
-                }),
-            })
-                .then((response) => response.json())
-                .catch((error) => console.error(error))
-                .then(function(response) {
-                    if (response.code !== undefined && response.code !== 200) {
-                        that.setState({
-                            error: {
-                                has: true,
-                                message: response.message,
-                            }
-                        });
-                        return 0;
-                    }
-                    that.setState({
-                        auth: true,
-                        authToken: response.token,
-                    })
-                });
-        } catch(e) {
-            console.log(e);
-        }
-    };
+    onSubmit() {
+        const data = {
+            username: this.props.username,
+            password: this.props.password,
+        };
+        onLoginSubmit(data, this.props.dispatch);
+    }
 
     render() {
         return (
             <Grid container justify="center">
                 <Grid container justify="center">
-                    {this.state.error.has && (
+                    <Grid item>
+                        <FacebookLoginButton/>
+                        <GoogleLoginButton/>
+                    </Grid>
+                </Grid>
+                <Grid container justify="center">
+                    {this.props.error !== undefined && (
                         <Grid container justify='center'>
                             <Grid item>
                                 <br/>
                                 <Typography variant='title' style={styles.errorTitle}>
-                                    {this.state.error.message}
+                                    {this.props.message}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -86,7 +58,7 @@ class LoginForm extends React.Component {
                                 id="username"
                                 label='Username'
                                 margin="normal"
-                                onChange={this.handleChange('username')}
+                                onChange={(e) => {this.props.onInputChange('username', e.target.value)}}
                             />
                         </Grid>
                         <Grid item>
@@ -96,12 +68,12 @@ class LoginForm extends React.Component {
                                 label='Password'
                                 margin="normal"
                                 type="password"
-                                onChange={this.handleChange('password')}
+                                onChange={(e) => {this.props.onInputChange('password', e.target.value)}}
                             />
                         </Grid>
                         <Grid item>
                             <br/>
-                            <Button style={styles.submit} onClick={() => this.handleSubmit()} color='primary' variant='raised'>
+                            <Button style={styles.submit} onClick={() => this.onSubmit()} color='primary' variant='raised'>
                                 Submit
                             </Button>
                         </Grid>
@@ -112,4 +84,4 @@ class LoginForm extends React.Component {
     }
 }
 
-export default LoginForm
+export default connect()(LoginForm)

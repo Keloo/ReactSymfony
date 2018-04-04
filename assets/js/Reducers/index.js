@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux'
-// import todos from './todos'
-// import visibilityFilter from './visibilityFilter'
+import { login } from './login'
+import { register } from './register'
 
 export default combineReducers({
-    // todos,
-    // visibilityFilter
-    a:'a'
+    login,
+    register
 })

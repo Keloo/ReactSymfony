@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
-import HomePage from './Components/HomePage'
-import LoginPage from './Components/LoginPage'
-import RegisterPage from './Components/RegisterPage'
-import AppBar from './Components/AppBar'
-import {createStore} from 'redux'
-import { Provider } from 'react-redux'
+
+import Login from './Containers/Login'
+import AppBar from './Containers/AppBar'
+import Home from './Components/Home'
+import RegisterPage from './Containers/Register'
 import rootReducer from './Reducers'
 
 const store = createStore(rootReducer);
@@ -25,6 +26,7 @@ class App extends React.Component {
     }
 
     render() {
+        let state = store.getState();
         return (
             <MuiThemeProvider theme={theme}>
                 <Grid container justify="center" spacing={16}>
@@ -32,13 +34,12 @@ class App extends React.Component {
                         <AppBar/>
                     </Grid>
                     <Grid item xs={12}>
-                        <Route exact path='/' component={HomePage}/>
-                        <Route path='/login' component={LoginPage}/>
+                        <Route exact path='/' component={Home}/>
+                        <Route path='/login' component={!state.login.auth?Login:Dashboard}/>
                         <Route path='/register' component={RegisterPage}/>
                     </Grid>
                 </Grid>
             </MuiThemeProvider>
-
         );
     }
 }

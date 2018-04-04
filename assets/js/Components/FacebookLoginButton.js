@@ -1,6 +1,8 @@
 import React from 'react'
-import SocialButton from './SocialButton'
 import FacebookIcon from 'mdi-material-ui/FacebookBox'
+
+import SocialButton from './SocialButton'
+
 
 const handleSocialLogin = (user) => {
     console.log(user)

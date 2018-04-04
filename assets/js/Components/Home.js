@@ -1,7 +1,7 @@
 import React from 'react'
 import Grid from 'material-ui/Grid';
 
-class HomePage extends React.Component {
+class Home extends React.Component {
     render() {
         return (
             <Grid container justify="center">
@@ -13,4 +13,4 @@ class HomePage extends React.Component {
     }
 }
 
-export default HomePage;
+export default Home;
