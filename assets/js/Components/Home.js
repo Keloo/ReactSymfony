@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Grid from 'material-ui/Grid';
 import ApartmentsTable from '../Containers/ApartmentsTable';
-import ApartmentsMap from '../Components/ApartmentsMap';
+import ApartmentsMap from '../Containers/ApartmentsMap';
 import { homeFetchApartments } from "../Actions/index";
 
 class Home extends React.Component {

@@ -1,7 +1,9 @@
 import { connect } from 'react-redux'
-import ApartmentsTableComponent from '../Components/ApartmentsTable'
+import ApartmentsMapComponent from '../Components/ApartmentsMap'
 
 const mapStateToProps = state => {
+    console.log('state change map');
+    console.log(state);
     return {
         apartments: state.home.apartments,
     }
@@ -13,9 +15,9 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-const ApartmentsTable = connect(
+const ApartmentsMap = connect(
     mapStateToProps,
     mapDispatchToProps,
-)(ApartmentsTableComponent);
+)(ApartmentsMapComponent);
 
-export default ApartmentsTable;
+export default ApartmentsMap;
