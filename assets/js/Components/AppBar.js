@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -9,6 +10,8 @@ import AccountCircle from 'mdi-material-ui/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import {Link} from 'react-router-dom'
 import Button from 'material-ui/Button'
+
+import { onSignOut } from "../Actions/index";
 
 const styles = {
     link: {
@@ -29,25 +32,22 @@ const styles = {
 
 class MenuAppBar extends React.Component {
     state = {
-        auth: false,
         anchorEl: null,
     };
 
-    handleChange = (event, checked) => {
-        this.setState({ auth: checked });
-    };
-
     handleMenu = event => {
-        this.setState({ anchorEl: event.currentTarget });
+        this.setState({ anchorEl: event.currentTarget }); // show menu
     };
 
     handleClose = () => {
-        this.setState({ anchorEl: null });
+        console.log('in handle close');
+        this.props.dispatch(onSignOut());
+        this.setState({ anchorEl: null }); //hide menu
     };
 
     render() {
         const { classes } = this.props;
-        const { auth, anchorEl } = this.state;
+        const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
         return (
             <div className={classes.root}>
@@ -109,4 +109,4 @@ MenuAppBar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+export default connect()(withStyles(styles)(MenuAppBar));

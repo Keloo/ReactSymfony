@@ -16,6 +16,9 @@ export const onLoginFailure = (response) => ({
     type: "LOGIN:LOGIN_FAILURE",
     message: response.message,
 });
+export const onSignOut = () => ({
+    type: "LOGIN:SIGN_OUT"
+});
 export const onGoogleLoginSubmit = (token, dispatch) => {
     api.handleGoogleLogin(
         token,

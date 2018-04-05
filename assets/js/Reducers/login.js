@@ -3,6 +3,8 @@ export const login = (state = {}, action) => {
     console.log(state);
     console.log(action);
     switch (action.type) {
+        case 'LOGIN:SIGN_OUT':
+            return {...state, auth: false};
         case 'LOGIN:INPUT_CHANGE':
             return {...state, [action.name]: action.value};
         case 'LOGIN:LOGIN_FAILURE':
