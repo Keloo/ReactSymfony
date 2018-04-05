@@ -27,3 +27,6 @@ services:
         arguments:
             - '@security.user_password_encoder.generic'
             - '@Google_Client'
+
+    Facebook\Facebook:
+        public: true

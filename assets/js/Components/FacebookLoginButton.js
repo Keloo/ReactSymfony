@@ -1,27 +1,30 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import FacebookIcon from 'mdi-material-ui/FacebookBox'
 
 import SocialButton from './SocialButton'
-
-
-const handleSocialLogin = (user) => {
-    console.log(user)
-};
-
-const handleSocialLoginFailure = (err) => {
-    console.error(err)
-};
+import { onFacebookLoginSubmit } from "../Actions/index";
 
 class FacebookLoginButton extends React.Component {
     static muiTheme = 'Button';
+
+    handleSocialLogin = (user) => {
+        console.log(user);
+        onFacebookLoginSubmit(user._token, this.props.dispatch);
+    };
+
+    handleSocialLoginFailure = (err) => {
+        console.error(err);
+    };
 
     render() {
         return (
             <SocialButton
                 provider='facebook'
                 appId='330456840431220'
-                onLoginSuccess={handleSocialLogin}
-                onLoginFailure={handleSocialLoginFailure}
+                scope="email"
+                onLoginSuccess={this.handleSocialLogin}
+                onLoginFailure={this.handleSocialLoginFailure}
             >
                 Sign with &nbsp;
                 <FacebookIcon />
@@ -30,4 +33,4 @@ class FacebookLoginButton extends React.Component {
     }
 }
 
-export default FacebookLoginButton;
+export default connect()(FacebookLoginButton);

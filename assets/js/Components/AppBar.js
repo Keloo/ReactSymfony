@@ -70,6 +70,7 @@ class MenuAppBar extends React.Component {
                         )}
                         {this.props.auth && (
                             <div>
+                                {this.props.username?this.props.username:""}
                                 <IconButton
                                     aria-owns={open ? 'menu-appbar' : null}
                                     aria-haspopup="true"
@@ -92,7 +93,7 @@ class MenuAppBar extends React.Component {
                                     open={open}
                                     onClose={this.handleClose}
                                 >
-                                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                                    {/*<MenuItem onClick={this.handleClose}>Profile</MenuItem>*/}
                                     <MenuItem onClick={this.handleClose}>Sign out</MenuItem>
                                 </Menu>
                             </div>

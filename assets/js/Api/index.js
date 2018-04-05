@@ -43,6 +43,25 @@ export default {
                 successCallback(response)
             })
     },
+    handleFacebookLogin: function(token, successCallback, failureCallback) {
+        fetch('api/login/facebook', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({token: token}),
+        })
+            .then((response) => response.json())
+            .then(function(response) {
+                console.log('in resp');
+                console.log(response);
+                if (response.code !== undefined && response.code !== 200) {
+                    failureCallback(response);
+                    return;
+                }
+                console.log('succ');
+                console.log(response);
+                successCallback(response)
+            })
+    },
     getApartments: function(callback) {
         fetch('api/apartment/list', {
             method: 'GET',

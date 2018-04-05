@@ -68,6 +68,9 @@
     "doctrine/orm": {
         "version": "v2.6.1"
     },
+    "facebook/graph-sdk": {
+        "version": "5.6.2"
+    },
     "firebase/php-jwt": {
         "version": "v5.0.0"
     },

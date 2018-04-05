@@ -6,6 +6,7 @@ use App\Entity\Apartment;
 use App\Entity\User;
 use App\Repository\ApartmentRepository;
 use App\Repository\UserRepository;
+use Facebook\Facebook;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,7 +79,7 @@ class DefaultController extends Controller
         $user = $this->getUserRepository()->loadUserByEmail($response['email']);
         if (!$user) {
             $user = $this->createUser(
-                $response['email'],
+                str_replace(' ', '', $response['name']),
                 $response['email'].random_int(0,9999),
                 $response['email']);
         }
@@ -87,6 +88,39 @@ class DefaultController extends Controller
         return new JsonResponse((object)[
             'token' => $jwtToken,
             'roles' => $user->getRoles(),
+            'username' => $user->getUsername(),
+        ]);
+    }
+
+    /**
+     * @Route("/api/login/facebook", name="api_login_facebook")
+     * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function facebookSignIn(Request $request)
+    {
+        /** @var Facebook $facebookClient */
+        $facebookClient = $this->container->get('Facebook\Facebook');
+
+        $data = json_decode($request->getContent());
+        $response = $facebookClient
+            ->get('/me?fields=email,name', $data->token->accessToken)
+            ->getDecodedBody();
+
+        $user = $this->getUserRepository()->loadUserByEmail($response['email']);
+        if (!$user) {
+            $user = $this->createUser(
+                str_replace(' ', '', $response['name']),
+                $response['email'].random_int(0,9999),
+                $response['email']);
+        }
+        $jwtToken = $this->getJwtManager()->create($user);
+
+        return new JsonResponse((object)[
+            'token' => $jwtToken,
+            'roles' => $user->getRoles(),
+            'username' => $user->getUsername(),
         ]);
     }
 
@@ -113,6 +147,7 @@ class DefaultController extends Controller
         return new JsonResponse((object)[
             'token' => $this->getJwtManager()->create($user),
             'roles' => $user->getRoles(),
+            'username' => $user->getUsername(),
         ]);
     }
 

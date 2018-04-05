@@ -10,6 +10,7 @@ export const onLoginSuccess = (response) => ({
     type: "LOGIN:LOGIN_SUCCESS",
     token: response.token,
     roles: response.roles,
+    username: response.username,
 });
 export const onLoginFailure = (response) => ({
     type: "LOGIN:LOGIN_FAILURE",
@@ -17,6 +18,13 @@ export const onLoginFailure = (response) => ({
 });
 export const onGoogleLoginSubmit = (token, dispatch) => {
     api.handleGoogleLogin(
+        token,
+        response => {dispatch(onLoginSuccess(response))},
+        response => {dispatch(onLoginFailure(response))}
+    )
+};
+export const onFacebookLoginSubmit = (token, dispatch) => {
+    api.handleFacebookLogin(
         token,
         response => {dispatch(onLoginSuccess(response))},
         response => {dispatch(onLoginFailure(response))}

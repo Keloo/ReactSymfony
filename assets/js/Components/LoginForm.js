@@ -5,7 +5,7 @@ import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
 
-import FacebookLoginButton from './FacebookLoginButton'
+import FacebookLogin from '../Containers/FacebookLogin'
 import GoogleLogin from '../Containers/GoogleLogin'
 import { onLoginSubmit } from "../Actions/index";
 
@@ -36,7 +36,7 @@ class LoginForm extends React.Component {
             <Grid container justify="center">
                 <Grid container justify="center">
                     <Grid item>
-                        <FacebookLoginButton/>
+                        <FacebookLogin/>
                         <GoogleLogin/>
                     </Grid>
                 </Grid>
