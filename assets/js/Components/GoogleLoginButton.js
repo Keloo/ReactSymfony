@@ -1,26 +1,40 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import GoogleIcon from 'mdi-material-ui/GooglePlusBox'
+import { onGoogleLoginSubmit, onLoginFailure } from '../Actions/index'
 
 import SocialButton from './SocialButton'
 
 
-const handleSocialLogin = (user) => {
-    console.log(user)
-};
-
-const handleSocialLoginFailure = (err) => {
-    console.error(err)
-};
 
 class GoogleLoginButton extends React.Component {
     static muiName = 'FlatButton';
+
+    constructor(props) {
+        super(props);
+    }
+
+    handleSocialLogin = (user) => {
+        console.log(user);
+        onGoogleLoginSubmit(user._token, this.props.dispatch);
+    };
+
+    handleSocialLoginFailure = (err) => {
+        console.log('in err');
+        //handle pop up close (for now ignore)
+
+        // this.props.dispatch(onLoginFailure({
+        //     message: "Something went wrong, try again"
+        // }));
+    };
+
     render() {
         return (
             <SocialButton
                 provider='google'
                 appId='120385458561-sctdjmm53v2ga7tib7k2vckam921mpqm.apps.googleusercontent.com'
-                onLoginSuccess={handleSocialLogin}
-                onLoginFailure={handleSocialLoginFailure}
+                onLoginSuccess={this.handleSocialLogin}
+                onLoginFailure={this.handleSocialLoginFailure}
             >
                 Sign with &nbsp;
                 <GoogleIcon />
@@ -29,4 +43,4 @@ class GoogleLoginButton extends React.Component {
     }
 }
 
-export default GoogleLoginButton;
+export default connect()(GoogleLoginButton);

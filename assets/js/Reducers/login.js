@@ -1,4 +1,7 @@
 export const login = (state = {}, action) => {
+    console.log('in reducer');
+    console.log(state);
+    console.log(action);
     switch (action.type) {
         case 'LOGIN:INPUT_CHANGE':
             return {...state, [action.name]: action.value};

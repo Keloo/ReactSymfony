@@ -20,9 +20,13 @@ class DefaultController extends Controller
     /** @var UserPasswordEncoderInterface */
     private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    /** @var \Google_Client */
+    private $googleClient;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, \Google_Client $googleClient)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->googleClient = $googleClient;
     }
 
     /**
@@ -62,13 +66,28 @@ class DefaultController extends Controller
      * @Route("/api/login/google", name="api_login_google")
      * @Method({"POST"})
      * @param Request $request
+     * @return JsonResponse
      */
     public function googleSignIn(Request $request)
     {
-        /** @var \Google_Client $googleClient */
-        $googleClient = $this->get('Google_Client');
-        /** @var JWTManager $jwtManager */
-        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
+        $data = json_decode($request->getContent());
+        $response = $this->googleClient->verifyIdToken($data->token->idToken);
+
+        //handle $response errors (hack attempts).
+
+        $user = $this->getUserRepository()->loadUserByEmail($response['email']);
+        if (!$user) {
+            $user = $this->createUser(
+                $response['email'],
+                $response['email'].random_int(0,9999),
+                $response['email']);
+        }
+        $jwtToken = $this->getJwtManager()->create($user);
+
+        return new JsonResponse((object)[
+            'token' => $jwtToken,
+            'roles' => $user->getRoles(),
+        ]);
     }
 
     /**
@@ -79,16 +98,11 @@ class DefaultController extends Controller
      */
     public function login(Request $request)
     {
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
-        /** @var JWTManager $jwtManager */
-        $jwtManager = $this->get('lexik_jwt_authentication.jwt_manager');
-
         $data = json_decode($request->getContent());
         if (!$data->username) $data->username = "";
         if (!$data->password) $data->password = "";
 
-        $user = $userRepository->loadUserByUsername($data->username);
+        $user = $this->getUserRepository()->loadUserByUsername($data->username);
         if (!$user || !$this->passwordEncoder->isPasswordValid($user, $data->password)) {
             return new JsonResponse((object)[
                 'code' => 401,
@@ -97,7 +111,7 @@ class DefaultController extends Controller
         }
 
         return new JsonResponse((object)[
-            'token' => $jwtManager->create($user),
+            'token' => $this->getJwtManager()->create($user),
             'roles' => $user->getRoles(),
         ]);
     }
@@ -135,5 +149,37 @@ class DefaultController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     * @param $email
+     * @return User
+     */
+    private function createUser($username, $password, $email)
+    {
+        $user = new User();
+        $user
+            ->setUsernameCanonical($username)
+            ->setUsername($username)
+            ->setPlainPassword($password)
+            ->setEmailCanonical($email)
+            ->setEmail($email);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $user;
+    }
+
+    private function getUserRepository()
+    {
+        return $this->getDoctrine()->getRepository(User::class);
+    }
+
+    private function getJwtManager()
+    {
+        return $this->get('lexik_jwt_authentication.jwt_manager');
     }
 }

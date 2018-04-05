@@ -26,3 +26,4 @@ services:
     App\Controller\DefaultController:
         arguments:
             - '@security.user_password_encoder.generic'
+            - '@Google_Client'
