@@ -14,25 +14,27 @@ class ApartmentsMap extends React.Component{
         super(props);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         let apartments = this.props.apartments?this.props.apartments:[];
         apartments.map((item) => {
             item.isOpen = false;
         });
-        this.props = {
+        console.log('constr');
+        console.log(apartments);
+        this.setState({
             apartments: apartments,
-        };
+        });
     }
 
     componentDidUpdate(nextProps) {
         console.log('in upd');
         console.log(nextProps);
-        if (nextProps.apartments === this.props.apartments) return;
+        if (nextProps.apartments === this.state.apartments) return;
 
         let apartments = this.props.apartments?this.props.apartments:[];
-        this.props = {
+        this.setState({
             apartments: apartments,
-        }
+        })
     }
 
     onToggleOpen(key) {
@@ -44,9 +46,31 @@ class ApartmentsMap extends React.Component{
                 item.isOpen = !item.isOpen;
             }
         });
-        this.props = {
+        this.setState({
             apartments: apartments,
-        }
+        });
+    }
+
+    renderMarkers() {
+        let markers = this.state.apartments.map((item) => {
+            return (
+                <Marker key={item.id}
+                        position={{ lat: parseFloat(item.gpsLatitude), lng: parseFloat(item.gpsLongitude) }}
+                        onClick={() => this.onToggleOpen(item.id)}
+                >
+                    {item.isOpen && <InfoWindow onCloseClick={() => {
+                        console.log('debug');
+                        console.log(item);
+                        this.onToggleOpen(item.id)
+                    }}>
+                        <div>{item.roomCount} rooms({item.area}m), for {item.pricePerMonth}$/month</div>
+                    </InfoWindow>}
+                </Marker>
+            )
+        });
+        return (
+            <div>{markers}</div>
+        )
     }
 
     render() {
@@ -55,22 +79,7 @@ class ApartmentsMap extends React.Component{
                 defaultZoom={9}
                 defaultCenter={{ lat: 40.712775, lng: -74.005973 }}
             >
-                {this.props.apartments.map((item) => {
-                    return (
-                        <Marker key={item.id}
-                            position={{ lat: parseFloat(item.gpsLatitude), lng: parseFloat(item.gpsLongitude) }}
-                            onClick={() => this.onToggleOpen(item.id)}
-                        >
-                            {item.isOpen && <InfoWindow onCloseClick={(item) => {
-                                console.log('debug');
-                                console.log(item);
-                                this.onToggleOpen(item.id)
-                            }}>
-                                <div>"hello there"</div>
-                            </InfoWindow>}
-                        </Marker>
-                    )
-                })}
+                {this.renderMarkers()}
             </GoogleMap>
         );
     };
