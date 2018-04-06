@@ -1,22 +1,45 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Button from 'material-ui/Button'
 import Grid from 'material-ui/Grid';
 import ApartmentsTable from '../Containers/ApartmentsTable';
 import ApartmentsMap from '../Containers/ApartmentsMap';
-import { homeFetchApartments } from "../Actions/index";
+
+import { fetchAllApartments } from "../Actions/index";
+
+const styles = {
+    link: {
+        color: 'inherit',
+        textDecoration: 'none',
+        padding: 15,
+    }
+};
 
 class Home extends React.Component {
 
     componentWillMount() {
         console.log('1');
         console.log(this.props);
-        homeFetchApartments(this.props.dispatch);
+        fetchAllApartments(this.props.dispatch);
     }
 
     render() {
 
         return (
             <Grid container justify="center" spacing={16}>
+                <Grid item xs={12} padding={16}>
+                    <Link style={styles.link} to="/user/list">
+                        <Button color="primary" variant="raised">
+                            User list
+                        </Button>
+                    </Link>
+                    <Link style={styles.link} to="/apartment/create">
+                        <Button color="primary" variant="raised">
+                            Create apartment
+                        </Button>
+                    </Link>
+                </Grid>
                 <Grid item xs={12} padding={16}>
                     <ApartmentsTable history={this.props.history} />
                 </Grid>

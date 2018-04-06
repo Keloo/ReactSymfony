@@ -65,11 +65,20 @@ export const onRegisterSubmit = (data, dispatch) => {
     )
 };
 
-//Home actions
-export const onFetchApartments = (response) => ({
-    type: "HOME:FETCH_APARTMENTS",
+//Apartment actions
+export const onFetchAllApartments = (response) => ({
+    type: "APARTMENT:FETCH_ALL",
     apartments: response,
 });
-export const homeFetchApartments = (dispatch) => {
-    api.getApartments(response => {dispatch(onFetchApartments(response))})
+export const onSetApartmentEditId = (id) => ({
+    type: "APARTMENT:SET_EDIT_ID",
+    id: id,
+});
+export const onApartmentInputChange = (name, value) => ({
+    type: "APARTMENT:INPUT_CHANGE",
+    name: name,
+    value: value
+});
+export const fetchAllApartments = (dispatch) => {
+    api.getApartments(response => {dispatch(onFetchAllApartments(response))})
 };

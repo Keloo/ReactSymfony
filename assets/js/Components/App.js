@@ -8,6 +8,8 @@ import Login from '../Containers/Login'
 import AppBar from '../Containers/AppBar'
 import Register from '../Containers/Register'
 import Home from '../Containers/Home'
+import ApartmentEdit from '../Containers/ApartmentEdit'
+import ApartmentCreate from '../Containers/ApartmentCreate'
 
 const theme = createMuiTheme({
     palette: {
@@ -28,6 +30,8 @@ class App extends React.Component {
                             <Route exact path='/' component={Home}/>
                             <Route exact path='/login' component={Login}/>
                             <Route exact path='/register' component={Register}/>
+                            <Route exact path='/apartment/edit' component={ApartmentEdit}/>
+                            <Route exact path='/apartment/create' component={ApartmentCreate}/>
                         </Grid>
                     </Grid>
                 </MuiThemeProvider>

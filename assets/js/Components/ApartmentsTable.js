@@ -22,6 +22,9 @@ import DeleteIcon from 'mdi-material-ui/Delete';
 import FilterListIcon from 'mdi-material-ui/Filter';
 import { lighten } from 'material-ui/styles/colorManipulator';
 import Button from 'material-ui/Button'
+import { Link } from 'react-router-dom'
+
+import { onSetApartmentEditId } from "../Actions/index";
 
 const columnData = [
     { id: 'pricePerMonth', numeric: true, disablePadding: false, label: 'Price per month' },
@@ -158,6 +161,10 @@ EnhancedTableToolbar.propTypes = {
 EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 
 const styles = theme => ({
+    link: {
+        color: 'inherit',
+        textDecoration: 'none'
+    },
     root: {
         width: '100%',
         marginTop: theme.spacing.unit * 3,
@@ -251,7 +258,7 @@ class EnhancedTable extends React.Component {
     handleEdit = (id) => {
         console.log('in edit');
         console.log(id);
-        this.props.history.push('/login');
+        this.props.dispatch(onSetApartmentEditId(id));
     };
 
     render() {
@@ -291,9 +298,11 @@ class EnhancedTable extends React.Component {
                                         <TableCell numeric>{n.area}</TableCell>
                                         <TableCell numeric>{n.roomCount}</TableCell>
                                         <TableCell numeric>
-                                            <Button onClick={() => this.handleEdit(n.id)} color="primary" variant="raised">
-                                                Edit
-                                            </Button>
+                                            <Link className={classes.link} to='/apartment/edit'>
+                                                <Button onClick={() => this.handleEdit(n.id)} color="primary" variant="raised">
+                                                    Edit
+                                                </Button>
+                                            </Link>
                                         </TableCell>
                                     </TableRow>
                                 );

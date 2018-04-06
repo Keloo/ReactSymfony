@@ -203,6 +203,7 @@ class DefaultController extends Controller
                 'gpsLatitude' => $apartment->getGpsLatitude(),
                 'gpsLongitude' => $apartment->getGpsLongitude(),
                 'roomCount' => $apartment->getRoomCount(),
+                'available' => $apartment->getAvailable(),
             ];
             array_push($response,$obj);
         }

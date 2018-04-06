@@ -5,7 +5,7 @@ const mapStateToProps = state => {
     console.log('state change map');
     console.log(state);
     return {
-        apartments: state.home.apartments,
+        apartments: state.apartment.list,
     }
 };
 

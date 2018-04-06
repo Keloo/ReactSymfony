@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import { login } from './login'
 import { register } from './register'
-import { home } from './home'
+import { apartment } from './apartment'
 
 export default combineReducers({
     login,
     register,
-    home
+    apartment
 })

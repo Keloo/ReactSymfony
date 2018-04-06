@@ -3,7 +3,7 @@ import ApartmentsTableComponent from '../Components/ApartmentsTable'
 
 const mapStateToProps = state => {
     return {
-        apartments: state.home.apartments,
+        apartments: state.apartment.list,
     }
 };
 
