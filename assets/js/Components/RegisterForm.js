@@ -19,7 +19,19 @@ const styles = {
 class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
+        console.log('in register costr');
+        console.log(this.props);
+        if (this.props.auth !== undefined && this.props.auth) {
+            this.props.history.push('/');
+        }
     }
+
+    componentDidUpdate() {
+        if (this.props.auth !== undefined && this.props.auth) {
+            this.props.history.push('/');
+        }
+    }
+
     handleSubmit() {
         console.log('handle submit');
         console.log(this.props);

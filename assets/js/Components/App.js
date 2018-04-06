@@ -26,8 +26,8 @@ class App extends React.Component {
                         </Grid>
                         <Grid item xs={12}>
                             <Route exact path='/' component={Home}/>
-                            <Route path='/login' component={!this.props.auth?Login:Home}/>
-                            <Route path='/register' component={!this.props.auth?Register:Home}/>
+                            <Route exact path='/login' component={Login}/>
+                            <Route exact path='/register' component={Register}/>
                         </Grid>
                     </Grid>
                 </MuiThemeProvider>

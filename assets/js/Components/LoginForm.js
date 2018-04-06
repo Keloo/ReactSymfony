@@ -21,6 +21,11 @@ const styles = {
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
+        console.log('in login constr');
+        console.log(this.props);
+        if (this.props.auth !== undefined && this.props.auth) {
+            this.props.history.push('/');
+        }
     }
 
     onSubmit() {
@@ -29,6 +34,14 @@ class LoginForm extends React.Component {
             password: this.props.password,
         };
         onLoginSubmit(data, this.props.dispatch);
+    }
+
+    componentDidUpdate() {
+        console.log('login did update');
+        console.log(this.props);
+        if (this.props.auth !== undefined && this.props.auth) {
+            this.props.history.push('/');
+        }
     }
 
     render() {

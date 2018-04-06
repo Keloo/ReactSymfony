@@ -21,11 +21,13 @@ import Tooltip from 'material-ui/Tooltip';
 import DeleteIcon from 'mdi-material-ui/Delete';
 import FilterListIcon from 'mdi-material-ui/Filter';
 import { lighten } from 'material-ui/styles/colorManipulator';
+import Button from 'material-ui/Button'
 
 const columnData = [
     { id: 'pricePerMonth', numeric: true, disablePadding: false, label: 'Price per month' },
     { id: 'area', numeric: true, disablePadding: false, label: 'Area' },
     { id: 'roomCount', numeric: true, disablePadding: false, label: 'Room count' },
+    { id: 'edit', numeric: true, disablePadding: false, label: 'Edit apartment'}
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -246,6 +248,12 @@ class EnhancedTable extends React.Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+    handleEdit = (id) => {
+        console.log('in edit');
+        console.log(id);
+        this.props.history.push('/login');
+    };
+
     render() {
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
@@ -270,19 +278,23 @@ class EnhancedTable extends React.Component {
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={event => this.handleClick(event, n.id)}
                                         role="checkbox"
                                         aria-checked={isSelected}
                                         tabIndex={-1}
                                         key={n.id}
                                         selected={isSelected}
                                     >
-                                        <TableCell padding="checkbox">
+                                        <TableCell padding="checkbox" onClick={event => this.handleClick(event, n.id)}>
                                             <Checkbox checked={isSelected} />
                                         </TableCell>
                                         <TableCell numeric>{n.pricePerMonth}</TableCell>
                                         <TableCell numeric>{n.area}</TableCell>
                                         <TableCell numeric>{n.roomCount}</TableCell>
+                                        <TableCell numeric>
+                                            <Button onClick={() => this.handleEdit(n.id)} color="primary" variant="raised">
+                                                Edit
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}

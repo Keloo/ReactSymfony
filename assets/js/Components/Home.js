@@ -18,7 +18,7 @@ class Home extends React.Component {
         return (
             <Grid container justify="center" spacing={16}>
                 <Grid item xs={12} padding={16}>
-                    <ApartmentsTable />
+                    <ApartmentsTable history={this.props.history} />
                 </Grid>
                 <br/>
                 <Grid item xs={12} padding={16}>

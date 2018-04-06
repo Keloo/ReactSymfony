@@ -11,6 +11,7 @@ const mapStateToProps = state => {
         password: state.register.password,
         error: state.register.error,
         message: state.register.message,
+        auth: state.login.auth,
     }
 };
 
