@@ -6,7 +6,7 @@ import Grid from 'material-ui/Grid';
 
 import Login from '../Containers/Login'
 import AppBar from '../Containers/AppBar'
-import RegisterPage from '../Containers/Register'
+import Register from '../Containers/Register'
 import Home from '../Containers/Home'
 
 const theme = createMuiTheme({
@@ -27,7 +27,7 @@ class App extends React.Component {
                         <Grid item xs={12}>
                             <Route exact path='/' component={Home}/>
                             <Route path='/login' component={!this.props.auth?Login:Home}/>
-                            <Route path='/register' component={RegisterPage}/>
+                            <Route path='/register' component={!this.props.auth?Register:Home}/>
                         </Grid>
                     </Grid>
                 </MuiThemeProvider>

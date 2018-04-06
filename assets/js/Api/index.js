@@ -62,6 +62,28 @@ export default {
                 successCallback(response)
             })
     },
+    handleRegister: function(data, successCallback, failureCallback) {
+        fetch('api/register', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                username: data.username,
+                email: data.email,
+                password: data.password,
+            })
+        })
+            .then((response) => response.json())
+            .then(function(response) {
+                console.log('in register response');
+                console.log(response);
+                if (response.code !== undefined && response.code !== 200) {
+                    failureCallback(response);
+                    return;
+                }
+                console.log('succ');
+                successCallback(response);
+            })
+    },
     getApartments: function(callback) {
         fetch('api/apartment/list', {
             method: 'GET',

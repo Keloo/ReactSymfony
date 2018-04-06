@@ -47,12 +47,23 @@ export const onRegisterInputChange = (name, value) => ({
     name: name,
     value: value
 });
+export const onRegisterFailure = (response) => ({
+    type: "REGISTER:REGISTER_FAILURE",
+    message: response.message,
+});
 export const onRegisterSuccess = (response) => ({
     type: "REGISTER:REGISTER_SUCCESS",
 });
-export const onRegisterFailure = (response) => ({
-    type: "REGISTER:REGISTER_FAILURE",
-});
+export const onRegisterSubmit = (data, dispatch) => {
+    api.handleRegister(
+        data,
+        response => {
+            dispatch(onRegisterSuccess(response));
+            dispatch(onLoginSuccess(response));
+        },
+        response => {dispatch(onRegisterFailure(response))},
+    )
+};
 
 //Home actions
 export const onFetchApartments = (response) => ({

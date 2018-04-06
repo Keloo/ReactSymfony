@@ -45,6 +45,11 @@ class MenuAppBar extends React.Component {
         this.setState({ anchorEl: null }); //hide menu
     };
 
+    handleCloseWithoutSignOut = () => {
+        console.log('in handle close without sign out');
+        this.setState({ anchorEl: null }); //hide menu
+    };
+
     render() {
         const { classes } = this.props;
         const { anchorEl } = this.state;
@@ -91,7 +96,7 @@ class MenuAppBar extends React.Component {
                                         horizontal: 'right',
                                     }}
                                     open={open}
-                                    onClose={this.handleClose}
+                                    onClose={this.handleCloseWithoutSignOut}
                                 >
                                     {/*<MenuItem onClick={this.handleClose}>Profile</MenuItem>*/}
                                     <MenuItem onClick={this.handleClose}>Sign out</MenuItem>

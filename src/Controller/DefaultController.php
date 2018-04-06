@@ -46,16 +46,40 @@ class DefaultController extends Controller
         return new JsonResponse("asdf");
     }
 
+    /**
+     * @Route("/api/register", name="api_register")
+     * @Method({"POST"})
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     */
     public function register(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $em = $this->getDoctrine()->getManager();
-        $username = $request->request->get('_username');
-        $password = $request->request->get('_password');
-        $user = new User($username);
-        $user->setPassword($encoder->encodePassword($user, $password));
-        $em->persist($user);
-        $em->flush();
-        return new Response(sprintf('User %s successfully created', $user->getUsername()));
+        $data = json_decode($request->getContent());
+
+        if (!filter_var($data->email, FILTER_VALIDATE_EMAIL)) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Invalid email",
+            ]);
+        }
+
+        $usernameExists = $this->getUserRepository()->loadUserByUsername($data->username);
+        $emailExists = $this->getUserRepository()->loadUserByUsername($data->email);
+
+        if ($usernameExists || $emailExists) {
+            return new JsonResponse((object)[
+                'code' => 409, //Conflict
+                'message' => "User already registered",
+            ]);
+        }
+        $user = $this->createUser($data->username, $data->password, $data->email);
+
+        return new JsonResponse((object)[
+            'token' => $this->getJwtManager()->create($user),
+            'roles' => $user->getRoles(),
+            'username' => $user->getUsername(),
+        ]);
     }
 
     public function api()

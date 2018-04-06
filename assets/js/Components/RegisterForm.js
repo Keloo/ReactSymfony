@@ -1,20 +1,34 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui/Grid'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
+
+import { onRegisterSubmit } from "../Actions/index"
 
 const styles = {
     submit: {
         width: '100%'
+    },
+    errorTitle: {
+        color: "red",
     }
 };
 
 class RegisterForm extends React.Component {
-
+    constructor(props) {
+        super(props);
+    }
     handleSubmit() {
-        console.log('handl submit');
+        console.log('handle submit');
         console.log(this.props);
+        let data = {
+            username: this.props.username,
+            email: this.props.email,
+            password: this.props.password,
+        };
+        onRegisterSubmit(data, this.props.dispatch);
     }
 
     render() {
@@ -25,7 +39,14 @@ class RegisterForm extends React.Component {
                             <Typography variant='title'>Register</Typography>
                         </Grid>
                     </Grid>
-                    <form noValidate action="#" autoComplete="off">
+                    {this.props.error !== undefined && this.props.error && (
+                        <Grid container justify="center">
+                            <Grid item>
+                                <Typography style={styles.errorTitle} variant='subheading'>{this.props.message}</Typography>
+                            </Grid>
+                        </Grid>
+                    )}
+                    <form noValidate autoComplete="off">
                         <Grid item>
                             <TextField
                                 required
@@ -57,7 +78,7 @@ class RegisterForm extends React.Component {
                         </Grid>
                         <Grid item>
                             <br/>
-                            <Button type='submit' style={styles.submit} onClick={() => this.handleSubmit()} color='primary' variant='raised'>
+                            <Button style={styles.submit} onClick={() => this.handleSubmit()} color='primary' variant='raised'>
                                 Register
                             </Button>
                         </Grid>
@@ -67,4 +88,4 @@ class RegisterForm extends React.Component {
     }
 }
 
-export default RegisterForm
+export default connect()(RegisterForm);

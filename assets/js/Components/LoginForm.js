@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
-import Grid from 'material-ui/Grid';
+import Grid from 'material-ui/Grid'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
 
 import FacebookLogin from '../Containers/FacebookLogin'
 import GoogleLogin from '../Containers/GoogleLogin'
-import { onLoginSubmit } from "../Actions/index";
+import { onLoginSubmit } from "../Actions/index"
 
 const styles = {
     submit: {
