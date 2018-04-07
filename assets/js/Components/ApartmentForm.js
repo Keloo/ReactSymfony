@@ -95,7 +95,7 @@ class ApartmentForm extends React.Component {
                     <Grid item>
                         <br/>
                         <Button style={styles.submit} onClick={() => this.onSubmit()} color='primary' variant='raised'>
-                            Save
+                            Submit
                         </Button>
                     </Grid>
                 </form>

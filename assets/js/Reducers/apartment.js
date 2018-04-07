@@ -14,6 +14,15 @@ export const apartment = (state = {}, action) => {
                 }
             })}
             return {...state, form: apartment, editId: action.id};
+        case 'APARTMENT:CREATE':
+            return {...state, form: {
+                pricePerMonth: '',
+                area: '',
+                roomCount: '',
+                gpsLatitude: '',
+                gpsLongitude: '',
+                available: true,
+            }};
         case 'APARTMENT:INPUT_CHANGE':
             let form = state.form;
             form[action.name] = action.value;

@@ -74,6 +74,9 @@ export const onSetApartmentEditId = (id) => ({
     type: "APARTMENT:SET_EDIT_ID",
     id: id,
 });
+export const onApartmentCreate = () => ({
+    type: "APARTMENT:CREATE",
+});
 export const onApartmentInputChange = (name, value) => ({
     type: "APARTMENT:INPUT_CHANGE",
     name: name,

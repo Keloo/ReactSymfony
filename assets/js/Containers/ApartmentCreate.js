@@ -6,6 +6,14 @@ const mapStateToProps = state => {
     console.log('state change apartment create');
     console.log(state);
     return {
+        apartment: {
+            pricePerMonth: state.apartment.form.pricePerMonth,
+            area: state.apartment.form.area,
+            roomCount: state.apartment.form.roomCount,
+            gpsLatitude: state.apartment.form.gpsLatitude,
+            gpsLongitude: state.apartment.form.gpsLongitude,
+            available: state.apartment.form.available,
+        },
         title: "Apartment Create",
     }
 };
