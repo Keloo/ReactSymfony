@@ -10,6 +10,9 @@ import Register from '../Containers/Register'
 import Home from '../Containers/Home'
 import ApartmentEdit from '../Containers/ApartmentEdit'
 import ApartmentCreate from '../Containers/ApartmentCreate'
+import UsersHome from "../Containers/UsersHome";
+import UserCreate from "../Containers/UserCreate";
+import UserEdit from "../Containers/UserEdit";
 
 const theme = createMuiTheme({
     palette: {
@@ -32,6 +35,9 @@ class App extends React.Component {
                             <Route exact path='/register' component={Register}/>
                             <Route exact path='/apartment/edit' component={ApartmentEdit}/>
                             <Route exact path='/apartment/create' component={ApartmentCreate}/>
+                            <Route exact path='/user/list' component={UsersHome}/>
+                            <Route exact path='/user/create' component={UserCreate}/>
+                            <Route exact path='/user/edit' component={UserEdit}/>
                         </Grid>
                     </Grid>
                 </MuiThemeProvider>

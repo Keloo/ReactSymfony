@@ -191,6 +191,36 @@ class DefaultController extends Controller
         return new JsonResponse($this->prepareApartmentsResponse($apartments));
     }
 
+    /**
+     * @Route("/api/user/list", name="api_user_list")
+     * @Method({"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function users(Request $request)
+    {
+        $users = $this->getUserRepository()->findAll();
+        return new JsonResponse($this->prepareUsersResponse($users));
+    }
+
+    protected function prepareUsersResponse($users)
+    {
+        $response = [];
+        /** @var User $user */
+        foreach ($users as $user) {
+            $obj = (object)[
+                'id' => $user->getId(),
+                'username' => $user->getUsername(),
+                'email' => $user->getEmail(),
+                'roles' => $user->getRoles(),
+                'enabled' => $user->getEnabled(),
+            ];
+            array_push($response, $obj);
+        }
+
+        return $response;
+    }
+
     protected function prepareApartmentsResponse($apartments)
     {
         $response = [];

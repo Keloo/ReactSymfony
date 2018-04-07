@@ -5,7 +5,7 @@ import Button from 'material-ui/Button'
 import Grid from 'material-ui/Grid';
 import ApartmentsTable from '../Containers/ApartmentsTable';
 import ApartmentsMap from '../Containers/ApartmentsMap';
-import { fetchAllApartments, onApartmentCreate } from "../Actions/index";
+import { fetchAllApartments, onApartmentCreate, fetchAllUsers } from "../Actions/index";
 
 const styles = {
     link: {
@@ -26,7 +26,7 @@ class Home extends React.Component {
     handleUserList() {
         console.log('in home (handleuserlist)');
         console.log(this.props);
-        // this.props.dispatch(onApartmentCreate());
+        fetchAllUsers(this.props.dispatch);
     }
 
     handleCreateApartment() {
@@ -35,9 +35,7 @@ class Home extends React.Component {
         this.props.dispatch(onApartmentCreate());
     }
 
-
     render() {
-
         return (
             <Grid container justify="center" spacing={16}>
                 <Grid item xs={12} padding={16}>

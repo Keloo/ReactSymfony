@@ -85,3 +85,24 @@ export const onApartmentInputChange = (name, value) => ({
 export const fetchAllApartments = (dispatch) => {
     api.getApartments(response => {dispatch(onFetchAllApartments(response))})
 };
+
+//User actions
+export const onFetchAllUsers = (response) => ({
+    type: "USER:FETCH_ALL",
+    users: response,
+});
+export const onSetUserEditId = (id) => ({
+    type: "USER:SET_EDIT_ID",
+    id: id,
+});
+export const onUserCreate = () => ({
+    type: "USER:CREATE",
+});
+export const onUserInputChange = (name, value) => ({
+    type: "USER:INPUT_CHANGE",
+    name: name,
+    value: value
+});
+export const fetchAllUsers = (dispatch) => {
+    api.getUsers(response => {dispatch(onFetchAllUsers(response))});
+};

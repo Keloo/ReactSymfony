@@ -95,5 +95,17 @@ export default {
                 console.log(response);
                 callback(response);
             });
+    },
+    getUsers: function(callback) {
+        fetch('api/user/list', {
+            method: 'GET',
+            headers: headers,
+        })
+            .then((response) => response.json())
+            .then(function(response) {
+                console.log("API:getUsers");
+                console.log(response);
+                callback(response);
+            });
     }
 }
