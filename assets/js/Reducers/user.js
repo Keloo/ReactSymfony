@@ -21,6 +21,7 @@ export const user = (state = {}, action) => {
                 email: '',
                 roles: '',
                 enabled: true,
+                password: '',
             }};
         case "USER:INPUT_CHANGE":
             let form = state.form;

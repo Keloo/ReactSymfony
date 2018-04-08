@@ -77,7 +77,7 @@ class User implements AdvancedUserInterface, \Serializable, EquatableInterface
     /**
      * @return ArrayCollection
      */
-    public function getApartments(): ArrayCollection
+    public function getApartments()
     {
         return $this->apartments;
     }

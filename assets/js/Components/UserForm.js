@@ -5,12 +5,28 @@ import Grid from 'material-ui/Grid'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
 import Switch from 'material-ui/Switch'
+import {
+    FormLabel,
+    FormControl,
+    FormGroup,
+    FormControlLabel,
+    FormHelperText,
+} from 'material-ui/Form';
+import Checkbox from 'material-ui/Checkbox';
 
 const styles = {
     submit: {
         width: '100%'
+    },
+    roles: {
+        margin: "16px 0 8px 0",
     }
 };
+
+const roles = [
+    "ROLE_REALTOR",
+    "ROLE_SUPER_ADMIN",
+];
 
 class UserForm extends React.Component {
     constructor(props) {
@@ -19,9 +35,17 @@ class UserForm extends React.Component {
         console.log(this.props);
     }
 
-    onSubmit() {
-        console.log("UserForm:submit");
-        console.log(this.props);
+    onRoleInputChange(role) {
+        console.log("UserForm:onRoleInputChange");
+        let userRoles = this.props.user.roles;
+        console.log(userRoles);
+        if (userRoles.indexOf(role) === -1) {
+            userRoles.push(role);
+        } else {
+            userRoles = userRoles.filter(r => r !== role);
+        }
+        console.log(userRoles);
+        this.props.onInputChange('roles', userRoles);
     }
 
     render() {
@@ -56,6 +80,39 @@ class UserForm extends React.Component {
                             onChange={(e) => {this.props.onInputChange('email', e.target.value)}}
                         />
                     </Grid>
+                    <Grid item>
+                        <TextField
+                            placeholder="new password"
+                            id="password"
+                            label='Password'
+                            margin="normal"
+                            value={this.props.user.password}
+                            onChange={(e) => {this.props.onInputChange('password', e.target.value)}}
+                        />
+                    </Grid>
+                    <Grid>
+                        <FormControl component="fieldset" style={styles.roles}>
+                            <FormLabel component="legend">Roles</FormLabel>
+                            <FormGroup>
+                                {roles.map((role) => {
+                                    return (
+                                        <FormControlLabel
+                                            key={role}
+                                            control={
+                                                <Checkbox
+                                                    checked={this.props.user.roles.indexOf(role) !== -1}
+                                                    onChange={(e) => {this.onRoleInputChange(e.target.value)}}
+                                                    value={role}
+                                                />
+                                            }
+                                            label={role}
+                                        />
+                                    )
+                                })}
+                            </FormGroup>
+                            <FormHelperText>There is no ROLE_GOD</FormHelperText>
+                        </FormControl>
+                    </Grid>
                     Available:
                     <Switch
                         checked={this.props.user.enabled}
@@ -66,7 +123,7 @@ class UserForm extends React.Component {
 
                     <Grid item>
                         <br/>
-                        <Button style={styles.submit} onClick={() => this.onSubmit()} color='primary' variant='raised'>
+                        <Button style={styles.submit} onClick={() => this.props.onSubmit(this.props)} color='primary' variant='raised'>
                             Submit
                         </Button>
                     </Grid>

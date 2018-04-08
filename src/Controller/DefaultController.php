@@ -139,6 +139,62 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("api/user/edit", name="api_user_edit")
+     * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function editUser(Request $request)
+    {
+        $data = json_decode($request->getContent());
+        $user = $this->getUserRepository()->find($data->id);
+        if (!$user) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'response' => "User not found",
+            ]);
+        }
+        $user
+            ->setEnabled($data->enabled)
+            ->setEmail($data->email)
+            ->setEmailCanonical($data->email)
+            ->setUsername($data->username)
+            ->setUsernameCanonical($data->username)
+            ->setRoles($data->roles);
+
+        // set the password only if it is set!
+        if (isset($data->password) && $data->password != '') {
+            $user->setPlainPassword($data->password);
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $data->password));
+        }
+
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("api/user", name="api_user_create")
+     * @Method({"PUT"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function createUserAction(Request $request)
+    {
+        $data = json_decode($request->getContent());
+
+        $this->createUser(
+            $data->username,
+            $data->password,
+            $data->email,
+            $data->enabled
+        );
+
+        return new JsonResponse();
+    }
+
+    /**
      * @Route("api/user", name="api_user_delete")
      * @Method({"DELETE"})
      * @param Request $request
@@ -148,6 +204,12 @@ class DefaultController extends Controller
     {
         $data = json_decode($request->getContent());
         $user = $this->getUserRepository()->find($data->id);
+        if ($user->getApartments()->count() > 0) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Cannot delete user that have apartments",
+            ]);
+        }
         $this->getDoctrine()->getManager()->remove($user);
         $this->getDoctrine()->getManager()->flush();
 
@@ -357,12 +419,14 @@ class DefaultController extends Controller
      * @param $username
      * @param $password
      * @param $email
+     * @param bool $enabled
      * @return User
      */
-    private function createUser($username, $password, $email)
+    private function createUser($username, $password, $email, $enabled = true)
     {
         $user = new User();
         $user
+            ->setEnabled($enabled)
             ->setUsernameCanonical($username)
             ->setUsername($username)
             ->setPlainPassword($password)

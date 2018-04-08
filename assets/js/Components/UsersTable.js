@@ -6,8 +6,10 @@ import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button'
+import Chip from 'material-ui/Chip';
+import Checkbox from 'material-ui/Checkbox'
 
-import { onSetUserEditId } from "../Actions/index";
+import { deleteUser, onSetUserEditId } from "../Actions/index";
 
 const styles = theme => ({
     root: {
@@ -20,7 +22,8 @@ const styles = theme => ({
     },
     link: {
         color: 'inherit',
-        textDecoration: 'none'
+        textDecoration: 'none',
+        marginRight: 15,
     },
 });
 
@@ -49,6 +52,12 @@ class UsersTable extends React.Component {
         this.props.dispatch(onSetUserEditId(id));
     }
 
+    handleDelete(id) {
+        console.log("UserTable:handleDelete");
+        console.log(id);
+        deleteUser(id, this.props.dispatch);
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -71,14 +80,23 @@ class UsersTable extends React.Component {
                                     <TableCell>{n.id}</TableCell>
                                     <TableCell numeric>{n.username}</TableCell>
                                     <TableCell numeric>{n.email}</TableCell>
-                                    <TableCell numeric>{n.roles}</TableCell>
-                                    <TableCell numeric>{n.available}</TableCell>
+                                    <TableCell numeric>
+                                        {n.roles.map((role) => <Chip key={role} label={role} />)}
+                                    </TableCell>
+                                    <TableCell numeric>
+                                        {n.enabled?
+                                            <Checkbox disabled checked />:
+                                            <Checkbox disabled />}
+                                    </TableCell>
                                     <TableCell numeric>
                                         <Link className={classes.link} to='/user/edit'>
                                             <Button variant="raised" color="primary" onClick={() => {this.handleEdit(n.id)}}>
                                                 Edit
                                             </Button>
                                         </Link>
+                                        <Button onClick={() => this.handleDelete(n.id)} color="secondary" variant="raised">
+                                            Delete
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             );

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import UserForm from '../Components/UserForm'
-import { onUserInputChange } from "../Actions/index";
+import {createUser, onUserInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
     console.log('userCreateContainer:mapState');
@@ -12,6 +12,7 @@ const mapStateToProps = state => {
             email: state.user.form.email,
             roles: state.user.form.roles,
             enabled: state.user.form.enabled,
+            password: state.user.form.password,
         },
         title: "User Create",
     }
@@ -21,6 +22,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onInputChange: (name, value) => {
             dispatch(onUserInputChange(name, value))
+        },
+        onSubmit: (props) => {
+            createUser(props.user, dispatch);
+            props.history.push('/user/list');
         }
     }
 };

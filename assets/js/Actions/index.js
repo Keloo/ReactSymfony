@@ -116,3 +116,12 @@ export const onUserInputChange = (name, value) => ({
 export const fetchAllUsers = (dispatch) => {
     api.getUsers(response => {dispatch(onFetchAllUsers(response))});
 };
+export const createUser = (data, dispatch) => {
+    api.createUser(data, () => {fetchAllUsers(dispatch)})
+};
+export const editUser = (data, dispatch) => {
+    api.editUser(data, () => {fetchAllUsers(dispatch)})
+};
+export const deleteUser = (id, dispatch) => {
+    api.deleteUser(id, () => {fetchAllUsers(dispatch)})
+};

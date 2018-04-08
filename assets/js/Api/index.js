@@ -148,5 +148,46 @@ export default {
                 console.log(response);
                 callback();
             })
-    }
+    },
+    createUser: function (data, callback) {
+        fetch('/api/user', {
+            method: "PUT",
+            headers: headers,
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log("API:createUser");
+                console.log(response);
+                callback();
+            })
+    },
+    editUser: function (data, callback) {
+        console.log("API:editUser");
+        console.log(data);
+        fetch('/api/user/edit', {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log("API:editUser");
+                console.log(response);
+                callback();
+            })
+    },
+    deleteUser: function(id, callback) {
+        fetch('/api/user', {
+            method: "DELETE",
+            headers: headers,
+            body: JSON.stringify({id:id}),
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log('API:deleteUser');
+                console.log(response);
+                callback();
+            })
+    },
 }
