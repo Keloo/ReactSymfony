@@ -47,6 +47,40 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/api/apartment", name="api_apartment_create")
+     * @Method({"PUT"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function createApartment(Request $request)
+    {
+        $data = json_decode($request->getContent());
+
+        $user = $this->getUserRepository()->find($data->user->id);
+        if (!$user) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "User not found",
+            ]);
+        }
+
+        $apartment = new Apartment();
+        $apartment
+            ->setUser($user)
+            ->setAvailable($data->available)
+            ->setArea($data->area)
+            ->setPricePerMonth($data->pricePerMonth)
+            ->setRoomCount($data->roomCount)
+            ->setGpsLatitude($data->gpsLatitude)
+            ->setGpsLongitude($data->gpsLongitude);
+
+        $this->getDoctrine()->getManager()->persist($apartment);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * @Route("api/apartment", name="api_apartment_delete")
      * @Method({"DELETE"})
      * @param Request $request
@@ -63,7 +97,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("api/apartment/edit", name="api_aprtment_edit")
+     * @Route("api/apartment/edit", name="api_apartment_edit")
      * @Method({"POST"})
      * @param Request $request
      * @return JsonResponse
@@ -80,7 +114,7 @@ class DefaultController extends Controller
             ]);
         }
 
-        $user = $this->getUserRepository()->loadUserByUsername($data->username);
+        $user = $this->getUserRepository()->find($data->user->id);
         if (!$user) {
             return new JsonResponse((object)[
                 'code' => 401,

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import ApartmentForm from '../Components/ApartmentForm'
-import { onApartmentInputChange } from "../Actions/index";
+import {createApartment, onApartmentInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
     console.log('state change apartment create');
@@ -13,7 +13,9 @@ const mapStateToProps = state => {
             gpsLatitude: state.apartment.form.gpsLatitude,
             gpsLongitude: state.apartment.form.gpsLongitude,
             available: state.apartment.form.available,
+            user: state.apartment.form.user,
         },
+        users: state.user.list,
         title: "Apartment Create",
     }
 };
@@ -22,6 +24,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onInputChange: (name, value) => {
             dispatch(onApartmentInputChange(name, value))
+        },
+        onSubmit: (props) => {
+            createApartment(props.apartment, dispatch);
+            props.history.push('/');
         }
     }
 };

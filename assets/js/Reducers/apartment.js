@@ -15,6 +15,12 @@ export const apartment = (state = {}, action) => {
             })}
             return {...state, form: apartment, editId: action.id};
         case 'APARTMENT:CREATE':
+            let user = {
+                username: '',
+            };
+            if (action.users)
+                user = action.users[0];
+
             return {...state, form: {
                 pricePerMonth: '',
                 area: '',
@@ -22,6 +28,7 @@ export const apartment = (state = {}, action) => {
                 gpsLatitude: '',
                 gpsLongitude: '',
                 available: true,
+                user: user,
             }};
         case 'APARTMENT:INPUT_CHANGE':
             let form = state.form;

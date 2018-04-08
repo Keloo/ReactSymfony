@@ -21,6 +21,7 @@ class Home extends React.Component {
         console.log('1');
         console.log(this.props);
         fetchAllApartments(this.props.dispatch);
+        fetchAllUsers(this.props.dispatch);
     }
 
     handleUserList() {
@@ -32,7 +33,7 @@ class Home extends React.Component {
     handleCreateApartment() {
         console.log('in home:haldeCreateApartment');
         console.log(this.props);
-        this.props.dispatch(onApartmentCreate());
+        this.props.dispatch(onApartmentCreate(this.props.users));
     }
 
     render() {

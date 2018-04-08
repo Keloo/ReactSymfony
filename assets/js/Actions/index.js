@@ -74,8 +74,9 @@ export const onSetApartmentEditId = (id) => ({
     type: "APARTMENT:SET_EDIT_ID",
     id: id,
 });
-export const onApartmentCreate = () => ({
+export const onApartmentCreate = (users) => ({
     type: "APARTMENT:CREATE",
+    users: users,
 });
 export const onApartmentInputChange = (name, value) => ({
     type: "APARTMENT:INPUT_CHANGE",
@@ -87,6 +88,12 @@ export const deleteApartment = (id, dispatch) => {
 };
 export const fetchAllApartments = (dispatch) => {
     api.getApartments(response => {dispatch(onFetchAllApartments(response))})
+};
+export const createApartment = (data, dispatch) => {
+    api.createApartment(data, () => {fetchAllApartments(dispatch)})
+};
+export const editApartment = (data, dispatch) => {
+    api.editApartment(data, () => {fetchAllApartments(dispatch)})
 };
 
 //User actions
