@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -68,17 +69,20 @@ class Apartment
     }
 
     /**
-     * @param mixed $available
+     * @param $available
+     * @return $this
      */
     public function setAvailable($available)
     {
         $this->available = $available;
+
+        return $this;
     }
 
     /**
-     * @return UserInterface
+     * @return AdvancedUserInterface
      */
-    public function getUser(): UserInterface
+    public function getUser(): AdvancedUserInterface
     {
         return $this->user;
     }

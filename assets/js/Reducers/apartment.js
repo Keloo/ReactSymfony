@@ -1,9 +1,9 @@
 export const apartment = (state = {}, action) => {
+    console.log('Reducer(apartment)');
+    console.log(state);
+    console.log(action);
     switch (action.type) {
         case 'APARTMENT:FETCH_ALL':
-            console.log('in apartment reducer');
-            console.log(state);
-            console.log(action);
             return {...state, list: action.apartments};
         case 'APARTMENT:SET_EDIT_ID':
             let apartment;

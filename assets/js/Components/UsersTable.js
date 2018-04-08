@@ -71,7 +71,7 @@ class UsersTable extends React.Component {
                                     <TableCell>{n.id}</TableCell>
                                     <TableCell numeric>{n.username}</TableCell>
                                     <TableCell numeric>{n.email}</TableCell>
-                                    <TableCell numeric>{n.rolse}</TableCell>
+                                    <TableCell numeric>{n.roles}</TableCell>
                                     <TableCell numeric>{n.available}</TableCell>
                                     <TableCell numeric>
                                         <Link className={classes.link} to='/user/edit'>

@@ -107,5 +107,18 @@ export default {
                 console.log(response);
                 callback(response);
             });
+    },
+    deleteApartment: function(id, callback) {
+        fetch('api/apartment', {
+            method: "DELETE",
+            headers: headers,
+            body: JSON.stringify({id:id}),
+        })
+            .then((response) => response.json())
+            .then(function(response) {
+                console.log('API:deleteApartment');
+                console.log(response);
+                callback();
+            })
     }
 }

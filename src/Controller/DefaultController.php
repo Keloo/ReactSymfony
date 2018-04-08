@@ -47,6 +47,80 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("api/apartment", name="api_apartment_delete")
+     * @Method({"DELETE"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteApartment(Request $request)
+    {
+        $data = json_decode($request->getContent());
+        $apartment = $this->getApartmentRepository()->find($data->id);
+        $this->getDoctrine()->getManager()->remove($apartment);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("api/apartment/edit", name="api_aprtment_edit")
+     * @Method({"POST"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function editApartment(Request $request)
+    {
+        $data = json_decode($request->getContent());
+
+        $apartment = $this->getApartmentRepository()->find($data->id);
+        if (!$apartment) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Apartment not found"
+            ]);
+        }
+
+        $user = $this->getUserRepository()->loadUserByUsername($data->username);
+        if (!$user) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "User not found",
+            ]);
+        }
+
+        $apartment
+            ->setRoomCount($data->roomCount)
+            ->setGpsLongitude($data->gpsLongitude)
+            ->setGpsLatitude($data->gpsLatitude)
+            ->setArea($data->area)
+            ->setAvailable($data->available)
+            ->setUser($user);
+
+        $this->getDoctrine()->getManager()->persist($apartment);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse((object)[
+            'code' => 200,
+        ]);
+    }
+
+    /**
+     * @Route("api/user", name="api_user_delete")
+     * @Method({"DELETE"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteUser(Request $request)
+    {
+        $data = json_decode($request->getContent());
+        $user = $this->getUserRepository()->find($data->id);
+        $this->getDoctrine()->getManager()->remove($user);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * @Route("/api/register", name="api_register")
      * @Method({"POST"})
      * @param Request $request
@@ -234,6 +308,10 @@ class DefaultController extends Controller
                 'gpsLongitude' => $apartment->getGpsLongitude(),
                 'roomCount' => $apartment->getRoomCount(),
                 'available' => $apartment->getAvailable(),
+                'user' => (object)[
+                    'id' => $apartment->getUser()->getId(),
+                    'username' => $apartment->getUser()->getUsername(),
+                ],
             ];
             array_push($response,$obj);
         }
@@ -266,6 +344,11 @@ class DefaultController extends Controller
     private function getUserRepository()
     {
         return $this->getDoctrine()->getRepository(User::class);
+    }
+
+    private function getApartmentRepository()
+    {
+        return $this->getDoctrine()->getRepository(Apartment::class);
     }
 
     private function getJwtManager()

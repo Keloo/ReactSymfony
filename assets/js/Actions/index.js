@@ -82,6 +82,9 @@ export const onApartmentInputChange = (name, value) => ({
     name: name,
     value: value
 });
+export const deleteApartment = (id, dispatch) => {
+    api.deleteApartment(id, () => {fetchAllApartments(dispatch)})
+};
 export const fetchAllApartments = (dispatch) => {
     api.getApartments(response => {dispatch(onFetchAllApartments(response))})
 };
