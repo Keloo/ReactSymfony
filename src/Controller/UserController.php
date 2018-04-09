@@ -53,6 +53,13 @@ class UserController extends Controller
         /** @var User $user */
         $user = $this->getDoctrine()->getRepository(User::class)->find($data->id);
 
+        if (!$user) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "User not found",
+            ]);
+        }
+
         if ($user->getApartments()->count() > 0) {
             return new JsonResponse((object)[
                 'code' => 401,
