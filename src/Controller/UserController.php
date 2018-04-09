@@ -43,6 +43,13 @@ class UserController extends Controller
     {
         $data = json_decode($request->getContent());
 
+        if (!isset($data->id)) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Please provide an user id"
+            ]);
+        }
+
         /** @var User $user */
         $user = $this->getDoctrine()->getRepository(User::class)->find($data->id);
 
@@ -74,7 +81,8 @@ class UserController extends Controller
                 $data->username,
                 $data->password,
                 $data->email,
-                $data->enabled
+                $data->enabled,
+                $data->roles
             );
         } catch(\Exception $e) {
             return new JsonResponse((object)[
@@ -146,9 +154,10 @@ class UserController extends Controller
      * @param $password
      * @param $email
      * @param bool $enabled
+     * @param array $roles
      * @return User
      */
-    private function createUser($username, $password, $email, $enabled = true)
+    private function createUser($username, $password, $email, $enabled = true, $roles = [])
     {
         $user = new User();
         $user
