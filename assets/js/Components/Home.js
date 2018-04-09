@@ -19,6 +19,9 @@ const styles = {
 class Home extends React.Component {
     componentWillMount() {
         fetchAllApartments(this.props.dispatch);
+        if (this.props.authUser.token !== undefined) {
+            fetchAllUsers(this.props.authUser.token, this.props.dispatch);
+        }
     }
 
     handleUserList() {
