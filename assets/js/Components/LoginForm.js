@@ -20,16 +20,12 @@ const styles = {
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log('in login constr');
-        console.log(this.props);
         if (this.props.auth !== undefined && this.props.auth) {
             this.props.history.push('/');
         }
     }
 
     componentDidUpdate() {
-        console.log('login did update');
-        console.log(this.props);
         if (this.props.auth !== undefined && this.props.auth) {
             this.props.history.push('/');
         }

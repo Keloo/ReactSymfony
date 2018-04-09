@@ -1,7 +1,4 @@
 export const apartment = (state = {}, action) => {
-    console.log('Reducer(apartment)');
-    console.log(state);
-    console.log(action);
     switch (action.type) {
         case 'APARTMENT:FETCH_ALL':
             return {...state, list: action.apartments};

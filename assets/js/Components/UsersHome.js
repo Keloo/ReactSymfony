@@ -16,8 +16,6 @@ const styles = {
 
 class UsersHome extends React.Component {
     handleCreateUser() {
-        console.log("UsersHome:handleCreateUser");
-        console.log(this.props);
         this.props.dispatch(onUserCreate());
     }
 

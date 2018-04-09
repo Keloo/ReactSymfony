@@ -19,8 +19,6 @@ const styles = {
 class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log('in register costr');
-        console.log(this.props);
         if (this.props.auth !== undefined && this.props.auth) {
             this.props.history.push('/');
         }
@@ -33,8 +31,6 @@ class RegisterForm extends React.Component {
     }
 
     handleSubmit() {
-        console.log('handle submit');
-        console.log(this.props);
         let data = {
             username: this.props.username,
             email: this.props.email,

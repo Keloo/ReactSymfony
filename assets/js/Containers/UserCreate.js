@@ -3,8 +3,6 @@ import UserForm from '../Components/UserForm'
 import {createUser, onUserInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
-    console.log('userCreateContainer:mapState');
-    console.log(state);
     return {
         user: {
             id: state.user.form.id,

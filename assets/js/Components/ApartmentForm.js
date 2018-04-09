@@ -32,13 +32,9 @@ const styles = theme => ({
 class ApartmentForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log('apartment form construct');
-        console.log(this.props);
     }
 
     handleUserChange(username) {
-        console.log("ApartmentForm:handleSelectChange");
-        console.log(username);
         let newUser = this.props.apartment.user;
         this.props.users.map((user) => {
             if (user.username === username) {
@@ -46,7 +42,6 @@ class ApartmentForm extends React.Component {
                 return;
             }
         });
-        console.log(newUser);
         this.props.dispatch(onApartmentInputChange('user', newUser));
     };
 

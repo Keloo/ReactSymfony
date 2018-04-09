@@ -31,17 +31,12 @@ const styles = theme => ({
 class UsersTable extends React.Component {
     constructor(props) {
         super(props);
-        console.log('UsersTable:constructor');
-        console.log(this);
         this.state = {
             users: this.props.users?this.props.users:[]
         }
     }
 
     componentDidUpdate(props) {
-        console.log("UsersTable:cDU");
-        console.log(props);
-        console.log(this.props);
         if (props.users === this.props.users) return;
         let users = this.props.users?this.props.users:[];
         this.setState({
@@ -54,8 +49,6 @@ class UsersTable extends React.Component {
     }
 
     handleDelete(id) {
-        console.log("UserTable:handleDelete");
-        console.log(id);
         deleteUser(this.props.authUser.token, id, this.props.dispatch);
     }
 

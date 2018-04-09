@@ -1,7 +1,4 @@
 export const user = (state = {}, action) => {
-    console.log('in user reducer');
-    console.log(state);
-    console.log(action);
     switch (action.type) {
         case "USER:FETCH_ALL":
             return {...state, list: action.users};

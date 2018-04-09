@@ -19,16 +19,12 @@ class ApartmentsMap extends React.Component{
         apartments.map((item) => {
             item.isOpen = false;
         });
-        console.log('constr');
-        console.log(apartments);
         this.setState({
             apartments: apartments,
         });
     }
 
     componentDidUpdate(nextProps) {
-        console.log('in upd');
-        console.log(nextProps);
         if (nextProps.apartments === this.state.apartments) return;
 
         let apartments = this.props.apartments?this.props.apartments:[];
@@ -38,8 +34,6 @@ class ApartmentsMap extends React.Component{
     }
 
     onToggleOpen(key) {
-        console.log('in event');
-        console.log(key);
         let apartments = this.props.apartments;
         apartments.map((item) => {
             if (item.id === key) {
@@ -59,8 +53,6 @@ class ApartmentsMap extends React.Component{
                         onClick={() => this.onToggleOpen(item.id)}
                 >
                     {item.isOpen && <InfoWindow onCloseClick={() => {
-                        console.log('debug');
-                        console.log(item);
                         this.onToggleOpen(item.id)
                     }}>
                         <div>{item.roomCount} rooms({item.area}m), for {item.pricePerMonth}$/month</div>

@@ -1,7 +1,4 @@
 export const login = (state = {}, action) => {
-    console.log('in login reducer');
-    console.log(state);
-    console.log(action);
     switch (action.type) {
         case 'LOGIN:SIGN_OUT':
             return {...state, auth: false, token: "", roles: []};

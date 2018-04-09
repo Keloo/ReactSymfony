@@ -3,8 +3,6 @@ import ApartmentForm from '../Components/ApartmentForm'
 import {createApartment, onApartmentInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
-    console.log('state change apartment create');
-    console.log(state);
     return {
         apartment: {
             pricePerMonth: state.apartment.form.pricePerMonth,

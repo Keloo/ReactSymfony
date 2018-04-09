@@ -141,14 +141,10 @@ class EnhancedTable extends React.Component {
     };
 
     handleEdit = (id) => {
-        console.log('in edit');
-        console.log(id);
         this.props.dispatch(onSetApartmentEditId(id));
     };
 
     handleDelete = (id) => {
-        console.log("ApartmentsTable:handleDelete");
-        console.log(id);
         deleteApartment(this.props.authUser.token, id, this.props.dispatch);
     };
 

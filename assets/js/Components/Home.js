@@ -18,20 +18,14 @@ const styles = {
 
 class Home extends React.Component {
     componentWillMount() {
-        console.log('1');
-        console.log(this.props);
         fetchAllApartments(this.props.dispatch);
     }
 
     handleUserList() {
-        console.log('in home (handleUserlist)');
-        console.log(this.props);
         fetchAllUsers(this.props.authUser.token, this.props.dispatch);
     }
 
     handleCreateApartment() {
-        console.log('in home:haldeCreateApartment');
-        console.log(this.props);
         let users = this.props.users;
         let isRealtor = !Utils.hasRole(this.props.authUser.roles, Utils.ROLE_SUPER_ADMIN);
         if (isRealtor) {

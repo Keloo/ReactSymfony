@@ -9,12 +9,11 @@ class FacebookLoginButton extends React.Component {
     static muiTheme = 'Button';
 
     handleSocialLogin = (user) => {
-        console.log(user);
         onFacebookLoginSubmit(user._token, this.props.dispatch);
     };
 
     handleSocialLoginFailure = (err) => {
-        console.error(err);
+        //@todo
     };
 
     render() {

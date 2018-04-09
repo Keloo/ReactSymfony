@@ -15,12 +15,11 @@ class GoogleLoginButton extends React.Component {
     }
 
     handleSocialLogin = (user) => {
-        console.log(user);
         onGoogleLoginSubmit(user._token, this.props.dispatch);
     };
 
     handleSocialLoginFailure = (err) => {
-        console.log('in err');
+        //@todo
         //handle pop up close (for now ignore)
 
         // this.props.dispatch(onLoginFailure({

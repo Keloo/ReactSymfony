@@ -30,8 +30,6 @@ export default {
             });
     },
     handleGoogleLogin: function(token, successCallback, failureCallback) {
-        console.log('in handle goodle login');
-
         fetch('/api/login/google', {
             method: 'POST',
             headers: headers(),
@@ -39,14 +37,10 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('in resp');
-                console.log(response);
                 if (response.code !== undefined && response.code !== 200) {
                     failureCallback(response);
                     return;
                 }
-                console.log('succ');
-                console.log(response);
                 successCallback(response)
             })
     },
@@ -58,14 +52,10 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('in resp');
-                console.log(response);
                 if (response.code !== undefined && response.code !== 200) {
                     failureCallback(response);
                     return;
                 }
-                console.log('succ');
-                console.log(response);
                 successCallback(response)
             })
     },
@@ -81,13 +71,10 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('in register response');
-                console.log(response);
                 if (response.code !== undefined && response.code !== 200) {
                     failureCallback(response);
                     return;
                 }
-                console.log('succ');
                 successCallback(response);
             })
     },
@@ -98,8 +85,6 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('2');
-                console.log(response);
                 callback(response);
             });
     },
@@ -110,8 +95,6 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log("API:getUsers");
-                console.log(response);
                 callback(response);
             });
     },
@@ -123,8 +106,6 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('API:deleteApartment');
-                console.log(response);
                 callback();
             })
     },
@@ -136,14 +117,10 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log("API:createApartment");
-                console.log(response);
                 callback();
             })
     },
     editApartment: function (token, data, callback) {
-        console.log("API:editPartment");
-        console.log(data);
         fetch('/api/apartment/edit', {
             method: "POST",
             headers: headers(token),
@@ -151,8 +128,6 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log("API:editApartment");
-                console.log(response);
                 callback();
             })
     },
@@ -164,14 +139,10 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log("API:createUser");
-                console.log(response);
                 callback();
             })
     },
     editUser: function (token, data, callback) {
-        console.log("API:editUser");
-        console.log(data);
         fetch('/api/user/edit', {
             method: "POST",
             headers: headers(token),
@@ -179,8 +150,6 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log("API:editUser");
-                console.log(response);
                 callback();
             })
     },
@@ -192,8 +161,6 @@ export default {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('API:deleteUser');
-                console.log(response);
                 callback();
             })
     },

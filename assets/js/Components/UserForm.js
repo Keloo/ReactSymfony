@@ -31,20 +31,15 @@ const roles = [
 class UserForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log('user form construct');
-        console.log(this.props);
     }
 
     onRoleInputChange(role) {
-        console.log("UserForm:onRoleInputChange");
         let userRoles = this.props.user.roles;
-        console.log(userRoles);
         if (userRoles.indexOf(role) === -1) {
             userRoles.push(role);
         } else {
             userRoles = userRoles.filter(r => r !== role);
         }
-        console.log(userRoles);
         this.props.onInputChange('roles', userRoles);
     }
 

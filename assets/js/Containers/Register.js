@@ -3,8 +3,6 @@ import RegisterForm from '../Components/RegisterForm'
 import { onRegisterInputChange } from "../Actions/index";
 
 const mapStateToProps = state => {
-    console.log('state changed register');
-    console.log(state);
     return {
         username: state.register.username,
         email: state.register.email,

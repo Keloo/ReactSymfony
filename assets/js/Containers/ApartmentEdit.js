@@ -3,8 +3,6 @@ import ApartmentForm from '../Components/ApartmentForm'
 import {editApartment, onApartmentInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
-    console.log('Container(ApartmentEdit)');
-    console.log(state);
     return {
         apartment: {
             id: state.apartment.form.id,
