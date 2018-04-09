@@ -1,4 +1,8 @@
 security:
+    role_hierarchy:
+        ROLE_REALTOR: ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_REALTOR
+
     encoders:
         App\Entity\User:
             algorithm: bcrypt
@@ -34,4 +38,6 @@ security:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/apartment/list, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/apartment, roles: ROLE_REALTOR, methods: [PUT] }
+        - { path: ^/api/user, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/api/apartment, roles: ROLE_SUPER_ADMIN }

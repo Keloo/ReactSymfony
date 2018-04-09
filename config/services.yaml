@@ -23,10 +23,14 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    App\Controller\DefaultController:
+    App\Controller\SecurityController:
         arguments:
             - '@security.user_password_encoder.generic'
             - '@Google_Client'
+
+    App\Controller\UserController:
+        arguments:
+            - '@security.user_password_encoder.generic'
 
     Facebook\Facebook:
         public: true
