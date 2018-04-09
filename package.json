@@ -16,6 +16,7 @@
     "build": "encore production"
   },
   "dependencies": {
+    "cypress": "^2.1.0",
     "material-ui": "^1.0.0-beta.40",
     "mdi-material-ui": "^3.2.0",
     "react-google-maps": "^9.4.5",
