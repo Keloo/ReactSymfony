@@ -40,6 +40,13 @@ class ApartmentController extends Controller
     {
         $data = json_decode($request->getContent());
 
+        if (!isset($data->id)) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Please provide an apartment id"
+            ]);
+        }
+
         /** @var Apartment $apartment */
         $apartment = $this->getDoctrine()->getRepository(Apartment::class)->find($data->id);
 
@@ -47,6 +54,13 @@ class ApartmentController extends Controller
             return new JsonResponse((object)[
                 'code' => 401,
                 'message' => "Apartment not found"
+            ]);
+        }
+
+        if (!isset($data->user) || !isset($data->user->id)) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Please provide the apartment user"
             ]);
         }
 
@@ -78,9 +92,7 @@ class ApartmentController extends Controller
             ]);
         }
 
-        return new JsonResponse((object)[
-            'code' => 200,
-        ]);
+        return new JsonResponse();
     }
 
     /**
