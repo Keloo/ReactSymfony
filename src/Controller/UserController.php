@@ -96,32 +96,46 @@ class UserController extends Controller
     {
         $data = json_decode($request->getContent());
 
-        /** @var User $user */
-        $user = $this->getDoctrine()->getRepository(User::class)->find($data->id);
-
-        if (!$user) {
+        if (!isset($data->id)) {
             return new JsonResponse((object)[
                 'code' => 401,
-                'response' => "User not found",
+                'message' => "Please provide an user id",
             ]);
         }
 
-        $user
-            ->setEnabled($data->enabled)
-            ->setEmail($data->email)
-            ->setEmailCanonical($data->email)
-            ->setUsername($data->username)
-            ->setUsernameCanonical($data->username)
-            ->setRoles($data->roles);
+        try {
+            /** @var User $user */
+            $user = $this->getDoctrine()->getRepository(User::class)->find($data->id);
 
-        // set the password only if it is set!
-        if (isset($data->password) && $data->password != '') {
-            $user->setPlainPassword($data->password);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $data->password));
+            if (!$user) {
+                return new JsonResponse((object)[
+                    'code' => 401,
+                    'response' => "User not found",
+                ]);
+            }
+
+            $user
+                ->setEnabled($data->enabled)
+                ->setEmail($data->email)
+                ->setEmailCanonical($data->email)
+                ->setUsername($data->username)
+                ->setUsernameCanonical($data->username)
+                ->setRoles($data->roles);
+
+            // set the password only if it is set!
+            if (isset($data->password) && $data->password != '') {
+                $user->setPlainPassword($data->password);
+                $user->setPassword($this->passwordEncoder->encodePassword($user, $data->password));
+            }
+
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->flush();
+        } catch (\Exception $e) {
+            return new JsonResponse((object)[
+                'code' => 500,
+                'message' => $e->getMessage(),
+            ]);
         }
-
-        $this->getDoctrine()->getManager()->persist($user);
-        $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse();
     }
