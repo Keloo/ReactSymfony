@@ -27,7 +27,7 @@ class App extends React.Component {
                 <MuiThemeProvider theme={theme}>
                     <Grid container justify="center" spacing={16}>
                         <Grid item xs={12}>
-                            <AppBar/>
+                            <Route component={AppBar}/>
                         </Grid>
                         <Grid item xs={12}>
                             <Route exact path='/' component={Home}/>
