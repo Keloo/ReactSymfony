@@ -4,7 +4,7 @@ export const login = (state = {}, action) => {
     console.log(action);
     switch (action.type) {
         case 'LOGIN:SIGN_OUT':
-            return {...state, auth: false};
+            return {...state, auth: false, token: "", roles: []};
         case 'LOGIN:INPUT_CHANGE':
             return {...state, [action.name]: action.value};
         case 'LOGIN:LOGIN_FAILURE':

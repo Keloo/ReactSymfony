@@ -14,6 +14,9 @@ const mapStateToProps = state => {
             enabled: state.user.form.enabled,
             password: state.user.form.password,
         },
+        authUser: {
+            token: state.login.token,
+        },
         title: "User Edit",
     }
 };
@@ -24,7 +27,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(onUserInputChange(name, value))
         },
         onSubmit: (props) => {
-            editUser(props.user, dispatch);
+            editUser(props.authUser.token, props.user, dispatch);
             props.history.push('/user/list');
         }
     }

@@ -7,7 +7,6 @@ import Typography from 'material-ui/Typography'
 
 import FacebookLogin from '../Containers/FacebookLogin'
 import GoogleLogin from '../Containers/GoogleLogin'
-import { onLoginSubmit } from "../Actions/index"
 
 const styles = {
     submit: {
@@ -26,14 +25,6 @@ class LoginForm extends React.Component {
         if (this.props.auth !== undefined && this.props.auth) {
             this.props.history.push('/');
         }
-    }
-
-    onSubmit() {
-        const data = {
-            username: this.props.username,
-            password: this.props.password,
-        };
-        onLoginSubmit(data, this.props.dispatch);
     }
 
     componentDidUpdate() {
@@ -86,7 +77,7 @@ class LoginForm extends React.Component {
                         </Grid>
                         <Grid item>
                             <br/>
-                            <Button style={styles.submit} onClick={() => this.onSubmit()} color='primary' variant='raised'>
+                            <Button style={styles.submit} onClick={() => this.props.onSubmit(this.props)} color='primary' variant='raised'>
                                 Submit
                             </Button>
                         </Grid>

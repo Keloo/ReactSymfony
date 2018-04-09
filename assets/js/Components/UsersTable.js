@@ -9,6 +9,7 @@ import Button from 'material-ui/Button'
 import Chip from 'material-ui/Chip';
 import Checkbox from 'material-ui/Checkbox'
 
+import Utils from './Utils'
 import { deleteUser, onSetUserEditId } from "../Actions/index";
 
 const styles = theme => ({
@@ -55,11 +56,11 @@ class UsersTable extends React.Component {
     handleDelete(id) {
         console.log("UserTable:handleDelete");
         console.log(id);
-        deleteUser(id, this.props.dispatch);
+        deleteUser(this.props.authUser.token, id, this.props.dispatch);
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, authUser } = this.props;
         return (
             <Paper className={classes.root}>
                 <Table className={classes.table}>
@@ -70,7 +71,9 @@ class UsersTable extends React.Component {
                             <TableCell numeric>Email</TableCell>
                             <TableCell numeric>Roles</TableCell>
                             <TableCell numeric>Available</TableCell>
-                            <TableCell numeric>EDIT</TableCell>
+                            {Utils.hasRole(this.props.authUser.roles, Utils.ROLE_SUPER_ADMIN) && (
+                                <TableCell numeric>EDIT</TableCell>
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -88,16 +91,18 @@ class UsersTable extends React.Component {
                                             <Checkbox disabled checked />:
                                             <Checkbox disabled />}
                                     </TableCell>
-                                    <TableCell numeric>
-                                        <Link className={classes.link} to='/user/edit'>
-                                            <Button variant="raised" color="primary" onClick={() => {this.handleEdit(n.id)}}>
-                                                Edit
+                                    {Utils.hasRole(authUser.roles, Utils.ROLE_SUPER_ADMIN) && (
+                                        <TableCell numeric>
+                                            <Link className={classes.link} to='/user/edit'>
+                                                <Button variant="raised" color="primary" onClick={() => {this.handleEdit(n.id)}}>
+                                                    Edit
+                                                </Button>
+                                            </Link>
+                                            <Button onClick={() => this.handleDelete(n.id)} color="secondary" variant="raised">
+                                                Delete
                                             </Button>
-                                        </Link>
-                                        <Button onClick={() => this.handleDelete(n.id)} color="secondary" variant="raised">
-                                            Delete
-                                        </Button>
-                                    </TableCell>
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             );
                         })}

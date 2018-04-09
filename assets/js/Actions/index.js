@@ -83,17 +83,17 @@ export const onApartmentInputChange = (name, value) => ({
     name: name,
     value: value
 });
-export const deleteApartment = (id, dispatch) => {
-    api.deleteApartment(id, () => {fetchAllApartments(dispatch)})
+export const deleteApartment = (token, id, dispatch) => {
+    api.deleteApartment(token, id, () => {fetchAllApartments(dispatch)})
 };
 export const fetchAllApartments = (dispatch) => {
     api.getApartments(response => {dispatch(onFetchAllApartments(response))})
 };
-export const createApartment = (data, dispatch) => {
-    api.createApartment(data, () => {fetchAllApartments(dispatch)})
+export const createApartment = (token, data, dispatch) => {
+    api.createApartment(token, data, () => {fetchAllApartments(dispatch)})
 };
-export const editApartment = (data, dispatch) => {
-    api.editApartment(data, () => {fetchAllApartments(dispatch)})
+export const editApartment = (token, data, dispatch) => {
+    api.editApartment(token, data, () => {fetchAllApartments(dispatch)})
 };
 
 //User actions
@@ -113,15 +113,15 @@ export const onUserInputChange = (name, value) => ({
     name: name,
     value: value
 });
-export const fetchAllUsers = (dispatch) => {
-    api.getUsers(response => {dispatch(onFetchAllUsers(response))});
+export const fetchAllUsers = (token, dispatch) => {
+    api.getUsers(token, response => {dispatch(onFetchAllUsers(response))});
 };
-export const createUser = (data, dispatch) => {
-    api.createUser(data, () => {fetchAllUsers(dispatch)})
+export const createUser = (token, data, dispatch) => {
+    api.createUser(token, data, () => {fetchAllUsers(token, dispatch)})
 };
-export const editUser = (data, dispatch) => {
-    api.editUser(data, () => {fetchAllUsers(dispatch)})
+export const editUser = (token, data, dispatch) => {
+    api.editUser(token, data, () => {fetchAllUsers(token, dispatch)})
 };
-export const deleteUser = (id, dispatch) => {
-    api.deleteUser(id, () => {fetchAllUsers(dispatch)})
+export const deleteUser = (token, id, dispatch) => {
+    api.deleteUser(token, id, () => {fetchAllUsers(token, dispatch)})
 };

@@ -6,6 +6,7 @@ import Grid from 'material-ui/Grid';
 import ApartmentsTable from '../Containers/ApartmentsTable';
 import ApartmentsMap from '../Containers/ApartmentsMap';
 import { fetchAllApartments, onApartmentCreate, fetchAllUsers } from "../Actions/index";
+import Utils from './Utils'
 
 const styles = {
     link: {
@@ -16,41 +17,52 @@ const styles = {
 };
 
 class Home extends React.Component {
-
     componentWillMount() {
         console.log('1');
         console.log(this.props);
         fetchAllApartments(this.props.dispatch);
-        fetchAllUsers(this.props.dispatch);
     }
 
     handleUserList() {
-        console.log('in home (handleuserlist)');
+        console.log('in home (handleUserlist)');
         console.log(this.props);
-        fetchAllUsers(this.props.dispatch);
+        fetchAllUsers(this.props.authUser.token, this.props.dispatch);
     }
 
     handleCreateApartment() {
         console.log('in home:haldeCreateApartment');
         console.log(this.props);
-        this.props.dispatch(onApartmentCreate(this.props.users));
+        let users = this.props.users;
+        let isRealtor = !Utils.hasRole(this.props.authUser.roles, Utils.ROLE_SUPER_ADMIN);
+        if (isRealtor) {
+            users = [
+                {
+                    username: this.props.authUser.username,
+                }
+            ]
+        }
+        this.props.dispatch(onApartmentCreate(users));
     }
 
     render() {
         return (
             <Grid container justify="center" spacing={16}>
-                <Grid item xs={12} padding={16}>
-                    <Link style={styles.link} to="/user/list">
-                        <Button color="primary" variant="raised" onClick={() => {this.handleUserList()}}>
-                            User list
-                        </Button>
-                    </Link>
-                    <Link style={styles.link} to="/apartment/create">
-                        <Button color="primary" variant="raised" onClick={() => {this.handleCreateApartment()}}>
-                            Create apartment
-                        </Button>
-                    </Link>
-                </Grid>
+                {Utils.hasRole(this.props.authUser.roles, Utils.ROLE_REALTOR) && (
+                    <Grid item xs={12} padding={16}>
+                        {Utils.hasRole(this.props.authUser.roles, Utils.ROLE_SUPER_ADMIN) && (
+                            <Link style={styles.link} to="/user/list">
+                                <Button color="primary" variant="raised" onClick={() => {this.handleUserList()}}>
+                                    User list
+                                </Button>
+                            </Link>
+                        )}
+                        <Link style={styles.link} to="/apartment/create">
+                            <Button color="primary" variant="raised" onClick={() => {this.handleCreateApartment()}}>
+                                Create apartment
+                            </Button>
+                        </Link>
+                    </Grid>
+                )}
                 <Grid item xs={12} padding={16}>
                     <ApartmentsTable history={this.props.history} />
                 </Grid>

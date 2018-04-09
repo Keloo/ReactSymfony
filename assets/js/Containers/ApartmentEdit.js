@@ -16,7 +16,10 @@ const mapStateToProps = state => {
             available: state.apartment.form.available,
             user: state.apartment.form.user,
         },
-        users: state.user.list,
+        authUser: {
+            token: state.login.token,
+        },
+        users: state.user.list !== undefined ? state.user.list : [],
         title: "Apartment Edit",
     }
 };
@@ -27,7 +30,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(onApartmentInputChange(name, value))
         },
         onSubmit: (props) => {
-            editApartment(props.apartment, dispatch);
+            editApartment(props.authUser.token, props.apartment, dispatch);
             props.history.push('/');
         }
     }

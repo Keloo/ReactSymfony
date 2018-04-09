@@ -51,7 +51,7 @@ class ApartmentForm extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, apartment } = this.props;
 
         return (
             <Grid container justify="center">
@@ -71,7 +71,7 @@ class ApartmentForm extends React.Component {
                             label='Price per month'
                             margin="normal"
                             type="number"
-                            value={this.props.apartment.pricePerMonth}
+                            value={apartment.pricePerMonth}
                             onChange={(e) => {this.props.onInputChange('pricePerMonth', e.target.value)}}
                         />
                     </Grid>
@@ -82,7 +82,7 @@ class ApartmentForm extends React.Component {
                             label='Area'
                             margin="normal"
                             type="number"
-                            value={this.props.apartment.area}
+                            value={apartment.area}
                             onChange={(e) => {this.props.onInputChange('area', e.target.value)}}
                         />
                     </Grid>
@@ -93,7 +93,7 @@ class ApartmentForm extends React.Component {
                             label='Rooms count'
                             margin="normal"
                             type="number"
-                            value={this.props.apartment.roomCount}
+                            value={apartment.roomCount}
                             onChange={(e) => {this.props.onInputChange('roomCount', e.target.value)}}
                         />
                     </Grid>
@@ -103,7 +103,7 @@ class ApartmentForm extends React.Component {
                             id="gpsLatitude"
                             label='GPS Latitude'
                             margin="normal"
-                            value={this.props.apartment.gpsLatitude}
+                            value={apartment.gpsLatitude}
                             onChange={(e) => {this.props.onInputChange('gpsLatitude', e.target.value)}}
                         />
                     </Grid>
@@ -113,7 +113,7 @@ class ApartmentForm extends React.Component {
                             id="gpsLongitude"
                             label='GPS Longitude'
                             margin="normal"
-                            value={this.props.apartment.gpsLongitude}
+                            value={apartment.gpsLongitude}
                             onChange={(e) => {this.props.onInputChange('gpsLongitude', e.target.value)}}
                         />
                     </Grid>
@@ -121,15 +121,15 @@ class ApartmentForm extends React.Component {
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="user">User</InputLabel>
                             <Select
-                                value={this.props.apartment.user.username}
+                                value={apartment.user.username}
                                 onChange={(e) => {this.handleUserChange(e.target.value)}}
                                 inputProps={{
                                     name: 'user',
                                     id: 'user',
                                 }}
                             >
-                                <MenuItem value="">
-                                    <em>{this.props.apartment.user.username}</em>
+                                <MenuItem value={apartment.user.username?apartment.user.username:""}>
+                                    <em>{apartment.user.username}</em>
                                 </MenuItem>
                                 {this.props.users.map((user) => {
                                     return (
@@ -141,7 +141,7 @@ class ApartmentForm extends React.Component {
                     </Grid>
                     Available:
                     <Switch
-                        checked={this.props.apartment.available}
+                        checked={apartment.available}
                         onChange={(e) => {this.props.onInputChange('available', e.target.checked)}}
                         value="available"
                         color="primary"

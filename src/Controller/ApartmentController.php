@@ -131,15 +131,19 @@ class ApartmentController extends Controller
     {
         $data = json_decode($request->getContent());
 
-        if (!isset($data->user) || !isset($data->user->id)) {
+        if (!isset($data->user) || (!isset($data->user->username) && !isset($data->user->id))) {
             return new JsonResponse((object)[
                 'code' => 401,
                 'message' => "Can not create apartment without user"
             ]);
         }
 
-        /** @var UserInterface $user */
-        $user = $this->getDoctrine()->getRepository(User::class)->find($data->user->id);
+        if (isset($data->user->id)) {
+            $user = $this->getDoctrine()->getRepository(User::class)->find($data->user->id);
+        } else {
+            $user = $this->getDoctrine()->getRepository(User::class)
+                ->loadUserByUsername($data->user->username);
+        }
 
         if (!$user) {
             return new JsonResponse((object)[

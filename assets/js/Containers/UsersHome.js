@@ -3,7 +3,7 @@ import UsersHomeComponent from '../Components/UsersHome'
 
 const mapStateToProps = state => {
     return {
-        // apartments: state.home.apartments,
+
     }
 };
 

@@ -43,6 +43,7 @@ class MenuAppBar extends React.Component {
         console.log('in handle close');
         this.props.dispatch(onSignOut());
         this.setState({ anchorEl: null }); //hide menu
+        this.history.push('/');
     };
 
     handleCloseWithoutSignOut = () => {

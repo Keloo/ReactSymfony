@@ -16,6 +16,7 @@ import Tooltip from 'material-ui/Tooltip';
 import Button from 'material-ui/Button'
 import { Link } from 'react-router-dom'
 
+import Utils from './Utils'
 import {deleteApartment, onSetApartmentEditId} from "../Actions/index";
 
 const columnData = [
@@ -23,7 +24,6 @@ const columnData = [
     { id: 'pricePerMonth', numeric: true, disablePadding: false, label: 'Price per month' },
     { id: 'area', numeric: true, disablePadding: false, label: 'Area' },
     { id: 'roomCount', numeric: true, disablePadding: false, label: 'Room count' },
-    { id: 'edit', numeric: true, disablePadding: false, label: 'Edit/Delete apartment'}
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -32,7 +32,7 @@ class EnhancedTableHead extends React.Component {
     };
 
     render() {
-        const { order, orderBy } = this.props;
+        const { order, orderBy, roles } = this.props;
 
         return (
             <TableHead>
@@ -61,6 +61,9 @@ class EnhancedTableHead extends React.Component {
                             </TableCell>
                         );
                     }, this)}
+                    {Utils.hasRole(roles, Utils.ROLE_SUPER_ADMIN) && (
+                        <TableCell key='edit' numeric >Edit / Delete</TableCell>
+                    )}
                 </TableRow>
             </TableHead>
         );
@@ -146,11 +149,11 @@ class EnhancedTable extends React.Component {
     handleDelete = (id) => {
         console.log("ApartmentsTable:handleDelete");
         console.log(id);
-        deleteApartment(id, this.props.dispatch);
+        deleteApartment(this.props.authUser.token, id, this.props.dispatch);
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, authUser } = this.props;
         const { data, order, orderBy, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
@@ -159,6 +162,7 @@ class EnhancedTable extends React.Component {
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table}>
                         <EnhancedTableHead
+                            roles={authUser.roles}
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={this.handleRequestSort}
@@ -176,16 +180,18 @@ class EnhancedTable extends React.Component {
                                         <TableCell numeric>{n.pricePerMonth}</TableCell>
                                         <TableCell numeric>{n.area}</TableCell>
                                         <TableCell numeric>{n.roomCount}</TableCell>
-                                        <TableCell numeric>
-                                            <Link className={classes.link} to='/apartment/edit'>
-                                                <Button onClick={() => this.handleEdit(n.id)} color="primary" variant="raised">
-                                                    Edit
+                                        {Utils.hasRole(authUser.roles, Utils.ROLE_SUPER_ADMIN) && (
+                                            <TableCell numeric>
+                                                <Link className={classes.link} to='/apartment/edit'>
+                                                    <Button onClick={() => this.handleEdit(n.id)} color="primary" variant="raised">
+                                                        Edit
+                                                    </Button>
+                                                </Link>
+                                                <Button onClick={() => this.handleDelete(n.id)} color="secondary" variant="raised">
+                                                    Delete
                                                 </Button>
-                                            </Link>
-                                            <Button onClick={() => this.handleDelete(n.id)} color="secondary" variant="raised">
-                                                Delete
-                                            </Button>
-                                        </TableCell>
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                 );
                             })}
