@@ -28,6 +28,33 @@ class SecurityController extends Controller
     }
 
     /**
+     * @Route("/api/user/verify", name="api_user_verify", defaults={"_format": "json"})
+     * @Method({"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function verifyUser(Request $request)
+    {
+        $token = $request->query->get('token');
+
+        $user = $this->getUserRepository()->findOneBy(['confirmationToken' => $token]);
+
+        if (!$user) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Invalid token",
+            ]);
+        }
+
+        $user->setConfirmationToken(null)->setEnabled(true);
+
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
      * @Route("/api/login", name="api_login", defaults={"_format": "json"})
      * @Method({"POST"})
      * @param Request $request
