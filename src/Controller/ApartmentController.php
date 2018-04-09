@@ -119,6 +119,13 @@ class ApartmentController extends Controller
     {
         $data = json_decode($request->getContent());
 
+        if (!isset($data->user) || !isset($data->user->id)) {
+            return new JsonResponse((object)[
+                'code' => 401,
+                'message' => "Can not create apartment without user"
+            ]);
+        }
+
         /** @var UserInterface $user */
         $user = $this->getDoctrine()->getRepository(User::class)->find($data->user->id);
 
@@ -129,18 +136,25 @@ class ApartmentController extends Controller
             ]);
         }
 
-        $apartment = new Apartment();
-        $apartment
-            ->setUser($user)
-            ->setAvailable($data->available)
-            ->setArea($data->area)
-            ->setPricePerMonth($data->pricePerMonth)
-            ->setRoomCount($data->roomCount)
-            ->setGpsLatitude($data->gpsLatitude)
-            ->setGpsLongitude($data->gpsLongitude);
+        try {
+            $apartment = new Apartment();
+            $apartment
+                ->setUser($user)
+                ->setAvailable($data->available)
+                ->setArea($data->area)
+                ->setPricePerMonth($data->pricePerMonth)
+                ->setRoomCount($data->roomCount)
+                ->setGpsLatitude($data->gpsLatitude)
+                ->setGpsLongitude($data->gpsLongitude);
 
-        $this->getDoctrine()->getManager()->persist($apartment);
-        $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->persist($apartment);
+            $this->getDoctrine()->getManager()->flush();
+        } catch (\Exception $e) {
+            return new JsonResponse((object)[
+                'code' => 500,
+                'message' => $e->getMessage(),
+            ]);
+        }
 
         return new JsonResponse();
     }
