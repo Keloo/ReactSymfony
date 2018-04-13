@@ -131,7 +131,7 @@ class SecurityController extends Controller
 
         try {
             $usernameExists = $this->getUserRepository()->loadUserByUsername($data->username);
-            $emailExists = $this->getUserRepository()->loadUserByUsername($data->email);
+            $emailExists = $this->getUserRepository()->loadUserByEmail($data->email);
 
             if ($usernameExists || $emailExists) {
                 return new JsonResponse((object)[

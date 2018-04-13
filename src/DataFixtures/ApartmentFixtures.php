@@ -18,6 +18,7 @@ class ApartmentFixtures extends Fixture implements DependentFixtureInterface
             ->setGpsLatitude("40.712775")
             ->setGpsLongitude("-74.005973")
             ->setRoomCount(1)
+            ->setAvailable(true)
             ->setUser($this->getReference(UserFixtures::REALTOR_USER_REFERENCE));
         $manager->persist($apartment);
         $manager->flush();
@@ -31,6 +32,7 @@ class ApartmentFixtures extends Fixture implements DependentFixtureInterface
             ->setGpsLatitude("40.717603")
             ->setGpsLongitude("-74.011522")
             ->setRoomCount(2)
+            ->setAvailable(true)
             ->setUser($this->getReference(UserFixtures::REALTOR_USER_REFERENCE));
         $manager->persist($apartment);
         $manager->flush();
@@ -44,6 +46,7 @@ class ApartmentFixtures extends Fixture implements DependentFixtureInterface
             ->setGpsLatitude("40.727882")
             ->setGpsLongitude("-73.982512")
             ->setRoomCount(4)
+            ->setAvailable(true)
             ->setUser($this->getReference(UserFixtures::REALTOR_USER_REFERENCE));
         $manager->persist($apartment);
         $manager->flush();
