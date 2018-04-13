@@ -1,6 +1,9 @@
 export const user = (state = {}, action) => {
     switch (action.type) {
         case "USER:FETCH_ALL":
+            if (action.users === undefined) {
+                action.users = [];
+            }
             return {...state, list: action.users};
         case "USER:SET_EDIT_ID":
             let user;

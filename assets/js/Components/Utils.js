@@ -24,6 +24,13 @@ class Utils {
                 return false;
         }
     }
+
+    static handleError(response, callback) {
+        if (response.status === 200)
+            return callback(response);
+
+        console.error(response);
+    }
 }
 
 export default Utils;

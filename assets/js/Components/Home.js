@@ -17,56 +17,53 @@ const styles = {
 };
 
 class Home extends React.Component {
-    componentWillMount() {
-        fetchAllApartments(this.props.dispatch);
-        if (this.props.authUser.token !== undefined) {
-            fetchAllUsers(this.props.authUser.token, this.props.dispatch);
+    constructor(props) {
+        super(props);
+        if (this.props.login.auth === false) {
+            this.props.history.push('/login');
+        }
+        if (Utils.hasRole(this.props.login.roles, Utils.ROLE_USER)) {
+            fetchAllApartments(this.props.dispatch);
+        }
+        if (Utils.hasRole(this.props.login.roles, Utils.ROLE_SUPER_ADMIN)) {
+            fetchAllUsers(this.props.login.token, this.props.dispatch);
         }
     }
 
-    handleUserList() {
-        fetchAllUsers(this.props.authUser.token, this.props.dispatch);
-    }
-
-    handleCreateApartment() {
-        let users = this.props.users;
-        let isRealtor = !Utils.hasRole(this.props.authUser.roles, Utils.ROLE_SUPER_ADMIN);
-        if (isRealtor) {
-            users = [
-                {
-                    username: this.props.authUser.username,
-                }
-            ]
-        }
-        this.props.dispatch(onApartmentCreate(users));
-    }
+    handleCreateApartment = () => {
+        this.props.dispatch(onApartmentCreate(this.props.user.list));
+    };
 
     render() {
         return (
             <Grid container justify="center" spacing={16}>
-                {Utils.hasRole(this.props.authUser.roles, Utils.ROLE_REALTOR) && (
+                {Utils.hasRole(this.props.login.roles, Utils.ROLE_REALTOR) && (
                     <Grid item xs={12} padding={16}>
-                        {Utils.hasRole(this.props.authUser.roles, Utils.ROLE_SUPER_ADMIN) && (
+                        {Utils.hasRole(this.props.login.roles, Utils.ROLE_SUPER_ADMIN) && (
                             <Link style={styles.link} to="/user/list">
-                                <Button color="primary" variant="raised" onClick={() => {this.handleUserList()}}>
+                                <Button color="primary" variant="raised">
                                     User list
                                 </Button>
                             </Link>
                         )}
                         <Link style={styles.link} to="/apartment/create">
-                            <Button color="primary" variant="raised" onClick={() => {this.handleCreateApartment()}}>
+                            <Button color="primary" variant="raised" onClick={this.handleCreateApartment}>
                                 Create apartment
                             </Button>
                         </Link>
                     </Grid>
                 )}
-                <Grid item xs={12} padding={16}>
-                    <ApartmentsTable history={this.props.history} />
-                </Grid>
-                <br/>
-                <Grid item xs={12} padding={16}>
-                    <ApartmentsMap />
-                </Grid>
+                {Utils.hasRole(this.props.login.roles, Utils.ROLE_USER) && (
+                    <Grid container justify="center" spacing={16}>
+                        <Grid item xs={12} padding={16}>
+                            <ApartmentsTable history={this.props.history} />
+                        </Grid>
+                        <br/>
+                        <Grid item xs={12} padding={16}>
+                        <ApartmentsMap />
+                        </Grid>
+                    </Grid>
+                )}
             </Grid>
         );
     }

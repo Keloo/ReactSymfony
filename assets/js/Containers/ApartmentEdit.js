@@ -17,7 +17,7 @@ const mapStateToProps = state => {
         authUser: {
             token: state.login.token,
         },
-        users: state.user.list !== undefined ? state.user.list : [],
+        users: state.user.list !== undefined && state.user.list ? state.user.list : [],
         title: "Apartment Edit",
     }
 };

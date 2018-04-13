@@ -6,6 +6,20 @@ import { Provider } from 'react-redux'
 import App from './Containers/App'
 import rootReducer from './Reducers'
 
-const store = createStore(rootReducer);
+// Create store with default state
+const store = createStore(rootReducer, {
+    login: {
+        auth: false,
+        roles: [],
+        token: '',
+        username: '',
+    },
+    user: {
+        list: [],
+    },
+    apartment: {
+        list: [],
+    }
+});
 
 render(<Provider store={store}><App /></Provider>, document.getElementById('root'));

@@ -126,7 +126,7 @@ class ApartmentForm extends React.Component {
                                 <MenuItem value={apartment.user.username?apartment.user.username:""}>
                                     <em>{apartment.user.username}</em>
                                 </MenuItem>
-                                {this.props.users.map((user) => {
+                                {this.props.users !== undefined && this.props.users.map((user) => {
                                     return (
                                         <MenuItem key={user.id} value={user.username}>{user.username}</MenuItem>
                                     )

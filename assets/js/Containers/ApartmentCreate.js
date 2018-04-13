@@ -13,7 +13,7 @@ const mapStateToProps = state => {
             available: state.apartment.form.available,
             user: state.apartment.form.user,
         },
-        users: state.user.list !== undefined ? state.user.list : [],
+        users: state.user.list !== undefined && state.user.list ? state.user.list : [],
         authUser: {
             token: state.login.token,
         },

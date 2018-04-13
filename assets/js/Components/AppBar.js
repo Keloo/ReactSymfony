@@ -32,27 +32,31 @@ const styles = {
 
 class MenuAppBar extends React.Component {
     state = {
-        anchorEl: null,
+        menu: {
+            show: false,
+            anchor: null,
+        }
     };
 
-    handleMenu = event => {
-        this.setState({ anchorEl: event.currentTarget }); // show menu
+    toggleMenu = (e) => {
+        this.setState({
+            menu: {
+                show: !this.state.menu.show,
+                anchor: e.currentTarget,
+            }
+        });
     };
 
-    handleClose = () => {
+    handleSignOut = (e) => {
+        this.toggleMenu(e);
         this.props.dispatch(onSignOut());
-        this.setState({ anchorEl: null }); //hide menu
-        this.props.history.push('/');
-    };
-
-    handleCloseWithoutSignOut = () => {
-        this.setState({ anchorEl: null }); //hide menu
+        this.props.history.push('/login');
     };
 
     render() {
         const { classes } = this.props;
-        const { anchorEl } = this.state;
-        const open = Boolean(anchorEl);
+        const { show, anchor } = this.state.menu;
+
         return (
             <div className={classes.root}>
                 <AppBar position="static">
@@ -62,7 +66,7 @@ class MenuAppBar extends React.Component {
                                 Toptal app
                             </Link>
                         </Typography>
-                        {!this.props.auth && (
+                        {!this.props.login.auth && (
                             <div>
                                 <Link style={styles.link} to='/login'>
                                     <Button color='inherit'>Login</Button>
@@ -72,33 +76,26 @@ class MenuAppBar extends React.Component {
                                 </Link>
                             </div>
                         )}
-                        {this.props.auth && (
+                        {this.props.login.auth && (
                             <div>
-                                {this.props.username?this.props.username:""}
+                                {this.props.login.username}
                                 <IconButton
-                                    aria-owns={open ? 'menu-appbar' : null}
+                                    aria-owns={show ? 'menu-appbar' : null}
                                     aria-haspopup="true"
-                                    onClick={this.handleMenu}
+                                    onClick={this.toggleMenu}
                                     color="inherit"
                                 >
                                     <AccountCircle />
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={open}
-                                    onClose={this.handleCloseWithoutSignOut}
+                                    anchorEl={anchor}
+                                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                                    open={show}
+                                    onClose={this.toggleMenu}
                                 >
-                                    {/*<MenuItem onClick={this.handleClose}>Profile</MenuItem>*/}
-                                    <MenuItem onClick={this.handleClose}>Sign out</MenuItem>
+                                    <MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
                                 </Menu>
                             </div>
                         )}
