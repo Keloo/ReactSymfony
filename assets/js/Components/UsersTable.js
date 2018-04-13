@@ -49,11 +49,11 @@ class UsersTable extends React.Component {
     }
 
     handleDelete(id) {
-        deleteUser(this.props.authUser.token, id, this.props.dispatch);
+        deleteUser(this.props.login.token, id, this.props.dispatch);
     }
 
     render() {
-        const { classes, authUser } = this.props;
+        const { classes, login } = this.props;
         return (
             <Paper className={classes.root}>
                 <Table className={classes.table}>
@@ -64,7 +64,7 @@ class UsersTable extends React.Component {
                             <TableCell numeric>Email</TableCell>
                             <TableCell numeric>Roles</TableCell>
                             <TableCell numeric>Available</TableCell>
-                            {Utils.hasRole(this.props.authUser.roles, Utils.ROLE_SUPER_ADMIN) && (
+                            {Utils.hasRole(this.props.login.roles, Utils.ROLE_SUPER_ADMIN) && (
                                 <TableCell numeric>EDIT</TableCell>
                             )}
                         </TableRow>
@@ -84,7 +84,7 @@ class UsersTable extends React.Component {
                                             <Checkbox disabled checked />:
                                             <Checkbox disabled />}
                                     </TableCell>
-                                    {Utils.hasRole(authUser.roles, Utils.ROLE_SUPER_ADMIN) && (
+                                    {Utils.hasRole(login.roles, Utils.ROLE_SUPER_ADMIN) && (
                                         <TableCell numeric>
                                             <Link className={classes.link} to='/user/edit'>
                                                 <Button variant="raised" color="primary" onClick={() => {this.handleEdit(n.id)}}>

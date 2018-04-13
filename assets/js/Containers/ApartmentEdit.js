@@ -3,21 +3,11 @@ import ApartmentForm from '../Components/ApartmentForm'
 import {editApartment, onApartmentInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
+    console.log(state.apartment.form);
     return {
-        apartment: {
-            id: state.apartment.form.id,
-            pricePerMonth: state.apartment.form.pricePerMonth,
-            area: state.apartment.form.area,
-            roomCount: state.apartment.form.roomCount,
-            gpsLatitude: state.apartment.form.gpsLatitude,
-            gpsLongitude: state.apartment.form.gpsLongitude,
-            available: state.apartment.form.available,
-            user: state.apartment.form.user,
-        },
-        authUser: {
-            token: state.login.token,
-        },
-        users: state.user.list !== undefined && state.user.list ? state.user.list : [],
+        apartment: state.apartment,
+        user: state.user,
+        login: state.login,
         title: "Apartment Edit",
     }
 };
@@ -28,7 +18,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(onApartmentInputChange(name, value))
         },
         onSubmit: (props) => {
-            editApartment(props.authUser.token, props.apartment, dispatch);
+            editApartment(props.login.token, props.apartment.form, dispatch);
             props.history.push('/');
         }
     }

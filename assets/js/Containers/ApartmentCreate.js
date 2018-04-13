@@ -4,19 +4,9 @@ import {createApartment, onApartmentInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
     return {
-        apartment: {
-            pricePerMonth: state.apartment.form.pricePerMonth,
-            area: state.apartment.form.area,
-            roomCount: state.apartment.form.roomCount,
-            gpsLatitude: state.apartment.form.gpsLatitude,
-            gpsLongitude: state.apartment.form.gpsLongitude,
-            available: state.apartment.form.available,
-            user: state.apartment.form.user,
-        },
-        users: state.user.list !== undefined && state.user.list ? state.user.list : [],
-        authUser: {
-            token: state.login.token,
-        },
+        apartment: state.apartment,
+        user: state.user,
+        login: state.login,
         title: "Apartment Create",
     }
 };
@@ -27,7 +17,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(onApartmentInputChange(name, value))
         },
         onSubmit: (props) => {
-            createApartment(props.authUser.token, props.apartment, dispatch);
+            createApartment(props.login.token, props.apartment.form, dispatch);
             props.history.push('/');
         }
     }

@@ -54,7 +54,7 @@ class Home extends React.Component {
                     </Grid>
                 )}
                 {Utils.hasRole(this.props.login.roles, Utils.ROLE_USER) && (
-                    <Grid container justify="center" spacing={16}>
+                    <Grid container justify="center">
                         <Grid item xs={12} padding={16}>
                             <ApartmentsTable history={this.props.history} />
                         </Grid>

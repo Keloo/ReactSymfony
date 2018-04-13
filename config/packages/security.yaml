@@ -38,7 +38,6 @@ security:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/apartment/list, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/apartment, roles: ROLE_REALTOR, methods: [PUT] }
+        - { path: ^/api/apartment, roles: ROLE_REALTOR }
         - { path: ^/api/user/verify, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/user, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/api/apartment, roles: ROLE_SUPER_ADMIN }

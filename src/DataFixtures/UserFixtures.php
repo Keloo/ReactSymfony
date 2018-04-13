@@ -30,6 +30,7 @@ class UserFixtures extends Fixture
             ->setPlainPassword('ilovenasa')
             ->setEmail('admin@example.com')
             ->setEmailCanonical('admin@example.com')
+            ->setEnabled(true)
             ->addRole('ROLE_SUPER_ADMIN');
         $pass = $this->encoder->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($pass);
@@ -47,6 +48,7 @@ class UserFixtures extends Fixture
             ->setPlainPassword('ilovenasa')
             ->setEmail('realtor@example.com')
             ->setEmailCanonical('realtor@example.com')
+            ->setEnabled(true)
             ->addRole('ROLE_REALTOR');
         $pass = $this->encoder->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($pass);
@@ -64,6 +66,7 @@ class UserFixtures extends Fixture
             ->setPlainPassword('ilovenasa')
             ->setEmail('user@example.com')
             ->setEmailCanonical('user@example.com')
+            ->setEnabled(true)
             ->addRole('ROLE_USER');
         $pass = $this->encoder->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($pass);

@@ -57,7 +57,7 @@ class ApartmentController extends Controller
             ]);
         }
 
-        if (!isset($data->user) || !isset($data->user->id)) {
+        if (!isset($data->user) || !isset($data->user->username)) {
             return new JsonResponse((object)[
                 'code' => 401,
                 'message' => "Please provide the apartment user"
@@ -65,7 +65,7 @@ class ApartmentController extends Controller
         }
 
         /** @var UserInterface $user */
-        $user = $this->getDoctrine()->getRepository(User::class)->find($data->user->id);
+        $user = $this->getDoctrine()->getRepository(User::class)->loadUserByUsername($data->user->username);
 
         if (!$user) {
             return new JsonResponse((object)[
@@ -76,6 +76,7 @@ class ApartmentController extends Controller
 
         try {
             $apartment
+                ->setPricePerMonth($data->pricePerMonth)
                 ->setRoomCount($data->roomCount)
                 ->setGpsLongitude($data->gpsLongitude)
                 ->setGpsLatitude($data->gpsLatitude)
@@ -109,6 +110,13 @@ class ApartmentController extends Controller
             /** @var Apartment $apartment */
             $apartment = $this->getDoctrine()->getRepository(Apartment::class)->find($data->id);
 
+            if (!$this->getUser()->hasRole("ROLE_SUPER_ADMIN") && $apartment->getUser() !== $this->getUser()) {
+                return new JsonResponse((object)[
+                    'code' => 401,
+                    'message' => "Realtor is allowed to delete only his apartments"
+                ]);
+            }
+
             $this->getDoctrine()->getManager()->remove($apartment);
             $this->getDoctrine()->getManager()->flush();
         } catch (\Exception $e) {
@@ -131,18 +139,13 @@ class ApartmentController extends Controller
     {
         $data = json_decode($request->getContent());
 
-        if (!isset($data->user) || (!isset($data->user->username) && !isset($data->user->id))) {
-            return new JsonResponse((object)[
-                'code' => 401,
-                'message' => "Can not create apartment without user"
-            ]);
-        }
-
         if (isset($data->user->id)) {
             $user = $this->getDoctrine()->getRepository(User::class)->find($data->user->id);
-        } else {
+        } else if (isset($data->user->username)) {
             $user = $this->getDoctrine()->getRepository(User::class)
                 ->loadUserByUsername($data->user->username);
+        } else {
+            $user = $this->getUser();
         }
 
         if (!$user) {
