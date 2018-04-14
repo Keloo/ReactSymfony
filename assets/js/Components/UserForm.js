@@ -14,6 +14,8 @@ import {
 } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
+import Utils from '../Components/Utils'
+
 const styles = {
     submit: {
         width: '100%'
@@ -23,18 +25,20 @@ const styles = {
     }
 };
 
-const roles = [
-    "ROLE_REALTOR",
-    "ROLE_SUPER_ADMIN",
-];
-
 class UserForm extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            signOut: false,
+        };
+        if (this.props.user.form.username === this.props.login.username) {
+            this.state.signOut = true;
+        }
     }
 
     onRoleInputChange(role) {
-        let userRoles = this.props.user.roles;
+        let userRoles = this.props.user.form.roles;
         if (userRoles.indexOf(role) === -1) {
             userRoles.push(role);
         } else {
@@ -44,6 +48,8 @@ class UserForm extends React.Component {
     }
 
     render() {
+        const { user } = this.props;
+
         return (
             <Grid container justify="center">
                 <Grid container justify='center'>
@@ -61,7 +67,7 @@ class UserForm extends React.Component {
                             id="username"
                             label='Username'
                             margin="normal"
-                            value={this.props.user.username}
+                            value={user.form.username}
                             onChange={(e) => {this.props.onInputChange('username', e.target.value)}}
                         />
                     </Grid>
@@ -71,7 +77,7 @@ class UserForm extends React.Component {
                             id="email"
                             label='Email'
                             margin="normal"
-                            value={this.props.user.email}
+                            value={user.form.email}
                             onChange={(e) => {this.props.onInputChange('email', e.target.value)}}
                         />
                     </Grid>
@@ -79,9 +85,10 @@ class UserForm extends React.Component {
                         <TextField
                             placeholder="new password"
                             id="password"
+                            type='password'
                             label='Password'
                             margin="normal"
-                            value={this.props.user.password}
+                            value={user.form.password}
                             onChange={(e) => {this.props.onInputChange('password', e.target.value)}}
                         />
                     </Grid>
@@ -89,13 +96,13 @@ class UserForm extends React.Component {
                         <FormControl component="fieldset" style={styles.roles}>
                             <FormLabel component="legend">Roles</FormLabel>
                             <FormGroup>
-                                {roles.map((role) => {
+                                {[Utils.ROLE_REALTOR, Utils.ROLE_SUPER_ADMIN].map((role) => {
                                     return (
                                         <FormControlLabel
                                             key={role}
                                             control={
                                                 <Checkbox
-                                                    checked={this.props.user.roles.indexOf(role) !== -1}
+                                                    checked={user.form.roles.indexOf(role) !== -1}
                                                     onChange={(e) => {this.onRoleInputChange(e.target.value)}}
                                                     value={role}
                                                 />
@@ -110,7 +117,7 @@ class UserForm extends React.Component {
                     </Grid>
                     Available:
                     <Switch
-                        checked={this.props.user.enabled}
+                        checked={user.form.enabled}
                         onChange={(e) => {this.props.onInputChange('enabled', e.target.checked)}}
                         value="enabled"
                         color="primary"
@@ -118,7 +125,7 @@ class UserForm extends React.Component {
 
                     <Grid item>
                         <br/>
-                        <Button style={styles.submit} onClick={() => this.props.onSubmit(this.props)} color='primary' variant='raised'>
+                        <Button style={styles.submit} onClick={() => this.props.onSubmit(this.props, this.state.signOut)} color='primary' variant='raised'>
                             Submit
                         </Button>
                     </Grid>

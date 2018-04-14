@@ -1,20 +1,11 @@
 import { connect } from 'react-redux'
 import UserForm from '../Components/UserForm'
-import {editUser, onUserInputChange} from "../Actions/index";
+import {editUser, onUserInputChange, onSignOut} from "../Actions/index";
 
 const mapStateToProps = state => {
     return {
-        user: {
-            id: state.user.form.id,
-            username: state.user.form.username,
-            email: state.user.form.email,
-            roles: state.user.form.roles,
-            enabled: state.user.form.enabled,
-            password: state.user.form.password,
-        },
-        authUser: {
-            token: state.login.token,
-        },
+        user: state.user,
+        login: state.login,
         title: "User Edit",
     }
 };
@@ -24,9 +15,14 @@ const mapDispatchToProps = dispatch => {
         onInputChange: (name, value) => {
             dispatch(onUserInputChange(name, value))
         },
-        onSubmit: (props) => {
-            editUser(props.authUser.token, props.user, dispatch);
-            props.history.push('/user/list');
+        onSubmit: (props, signOut) => {
+            editUser(props.login.token, props.user.form, dispatch);
+            if (signOut) {
+                dispatch(onSignOut());
+                props.history.push('/');
+            } else {
+                props.history.push('/user/list');
+            }
         }
     }
 };

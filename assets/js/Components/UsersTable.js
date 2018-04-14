@@ -29,31 +29,9 @@ const styles = theme => ({
 });
 
 class UsersTable extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            users: this.props.users?this.props.users:[]
-        }
-    }
-
-    componentDidUpdate(props) {
-        if (props.users === this.props.users) return;
-        let users = this.props.users?this.props.users:[];
-        this.setState({
-            users: users,
-        })
-    }
-
-    handleEdit(id) {
-        this.props.dispatch(onSetUserEditId(id));
-    }
-
-    handleDelete(id) {
-        deleteUser(this.props.login.token, id, this.props.dispatch);
-    }
-
     render() {
-        const { classes, login } = this.props;
+        const { classes, login, user, dispatch } = this.props;
+
         return (
             <Paper className={classes.root}>
                 <Table className={classes.table}>
@@ -64,13 +42,13 @@ class UsersTable extends React.Component {
                             <TableCell numeric>Email</TableCell>
                             <TableCell numeric>Roles</TableCell>
                             <TableCell numeric>Available</TableCell>
-                            {Utils.hasRole(this.props.login.roles, Utils.ROLE_SUPER_ADMIN) && (
-                                <TableCell numeric>EDIT</TableCell>
+                            {Utils.hasRole(login.roles, Utils.ROLE_SUPER_ADMIN) && (
+                                <TableCell numeric>Edit/Delete</TableCell>
                             )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.users.map(n => {
+                        {user.list.map(n => {
                             return (
                                 <TableRow key={n.id}>
                                     <TableCell>{n.id}</TableCell>
@@ -87,11 +65,19 @@ class UsersTable extends React.Component {
                                     {Utils.hasRole(login.roles, Utils.ROLE_SUPER_ADMIN) && (
                                         <TableCell numeric>
                                             <Link className={classes.link} to='/user/edit'>
-                                                <Button variant="raised" color="primary" onClick={() => {this.handleEdit(n.id)}}>
+                                                <Button
+                                                    variant="raised"
+                                                    color="primary"
+                                                    onClick={() => {dispatch(onSetUserEditId(n.id));}}
+                                                >
                                                     Edit
                                                 </Button>
                                             </Link>
-                                            <Button onClick={() => this.handleDelete(n.id)} color="secondary" variant="raised">
+                                            <Button
+                                                onClick={() => {deleteUser(login.token, n.id, dispatch);}}
+                                                color="secondary"
+                                                variant="raised"
+                                            >
                                                 Delete
                                             </Button>
                                         </TableCell>

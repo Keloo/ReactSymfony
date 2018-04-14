@@ -4,17 +4,8 @@ import {createUser, onUserInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
     return {
-        user: {
-            id: state.user.form.id,
-            username: state.user.form.username,
-            email: state.user.form.email,
-            roles: state.user.form.roles,
-            enabled: state.user.form.enabled,
-            password: state.user.form.password,
-        },
-        authUser: {
-            token: state.login.token,
-        },
+        user: state.user,
+        login: state.login,
         title: "User Create",
     }
 };
@@ -24,8 +15,8 @@ const mapDispatchToProps = dispatch => {
         onInputChange: (name, value) => {
             dispatch(onUserInputChange(name, value))
         },
-        onSubmit: (props) => {
-            createUser(props.authUser.token, props.user, dispatch);
+        onSubmit: (props, signOut) => {
+            createUser(props.login.token, props.user, dispatch);
             props.history.push('/user/list');
         }
     }

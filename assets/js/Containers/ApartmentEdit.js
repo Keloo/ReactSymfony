@@ -3,7 +3,6 @@ import ApartmentForm from '../Components/ApartmentForm'
 import {editApartment, onApartmentInputChange} from "../Actions/index";
 
 const mapStateToProps = state => {
-    console.log(state.apartment.form);
     return {
         apartment: state.apartment,
         user: state.user,
