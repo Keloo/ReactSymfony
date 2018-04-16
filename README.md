@@ -1,5 +1,3 @@
-jwt pass: root
-
 ## Installation
 
 - complete .env.dist with your data
@@ -9,6 +7,7 @@ jwt pass: root
 - yarn run encore 
 - bin/console server:start
 - visit localhost:8000
+- jwt password: root
 
 ## What's inside
 A demo app for apartment rentals
