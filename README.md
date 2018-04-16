@@ -1,6 +1,6 @@
 jwt pass: root
 
-##Installation
+## Installation
 
 - complete .env.dist with your data
 - assets/js/Components/FacebookLoginButton and GoogleLoginButton (complete with app ids)
@@ -10,7 +10,7 @@ jwt pass: root
 - bin/console server:start
 - visit localhost:8000
 
-##What's inside
+## What's inside
 A demo app for apartment rentals
 - Login (regular, fb, google)
 - Registration
@@ -19,8 +19,8 @@ A demo app for apartment rentals
 - ROLE_REALTOR can CRUD his apartments
 - ROLE_SUPER_ADMIN can CRUD users/apartments
 
-##Tech used
+## Tech used
 - Backend: Symfony4 + REST API
 - Frontend: React + Redux + Material UI
 
-####Purpose of the project is learning
+#### Purpose of the project is learning
