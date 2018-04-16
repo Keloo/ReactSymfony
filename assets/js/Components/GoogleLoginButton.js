@@ -31,7 +31,7 @@ class GoogleLoginButton extends React.Component {
         return (
             <SocialButton
                 provider='google'
-                appId='120385458561-sctdjmm53v2ga7tib7k2vckam921mpqm.apps.googleusercontent.com'
+                appId='<google_app_id>'
                 onLoginSuccess={this.handleSocialLogin}
                 onLoginFailure={this.handleSocialLoginFailure}
             >

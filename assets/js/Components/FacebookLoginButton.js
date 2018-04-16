@@ -20,7 +20,7 @@ class FacebookLoginButton extends React.Component {
         return (
             <SocialButton
                 provider='facebook'
-                appId='330456840431220'
+                appId='<fb_app_id>'
                 scope="email"
                 onLoginSuccess={this.handleSocialLogin}
                 onLoginFailure={this.handleSocialLoginFailure}
